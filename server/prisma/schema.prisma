@@ -1,24 +1,51 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
+ 
 }
 
 datasource db {
   provider = "postgresql"
-  
+   
 }
 
-model User{
-  id Int      @id @default(autoincrement())
-  name      String
-  email     String   @unique
-  password  String
-  createdAt DateTime @default(now())
+enum LifePhase {
+  STRESS
+  LONELINESS
+  ANXIETY
+  CONFUSION
+  LOW_MOTIVATION
+}
 
+model User {
+  id            Int        @id @default(autoincrement())
+  name          String
+  email         String     @unique
+  password      String
+  currentPhase  LifePhase?
+  createdAt     DateTime   @default(now())
+moods       Mood[]
+  reflections Reflection[]
+}
+
+model Mood {
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  value     Int      // e.g., 1-5 scale
+  date      DateTime @default(now())
+}
+model Reflection {
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  question  String
+  answer    String
+  date      DateTime @default(now())
+}
+
+model DailyMessage {
+  id        Int      @id @default(autoincrement())
+  phase     String   // Stress, Anxiety, etc.
+  message   String
+  createdAt DateTime @default(now())
 }
