@@ -45,7 +45,7 @@ model Reflection {
 
 model DailyMessage {
   id        Int      @id @default(autoincrement())
-  phase     String   // Stress, Anxiety, etc.
+  phase     LifePhase   // Stress, Anxiety, etc.
   message   String
   createdAt DateTime @default(now())
 }

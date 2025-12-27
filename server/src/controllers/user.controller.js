@@ -8,7 +8,8 @@ exports.getMe = async (req, res) => {
         id: true,
         name: true,
         email: true,
-        createdAt: true
+        createdAt: true,
+        currentPhase: true
       }
     });
 
@@ -21,6 +22,14 @@ exports.getMe = async (req, res) => {
     res.status(500).json({ message: "Failed to fetch user profile" });
   }
 };
+
+const allowedPhases = [
+  "STRESS",
+  "ANXIETY",
+  "LONELINESS",
+  "CONFUSION",
+  "LOW_MOTIVATION",
+];
 
 exports.getPhase = async (req, res) => {
   try {
@@ -36,16 +45,30 @@ exports.getPhase = async (req, res) => {
 
 exports.setPhase = async (req, res) => {
   try {
-    const { phase } = req.body;
-    if (!phase) return res.status(400).json({ message: "Phase required" });
+    let { phase } = req.body;
+
+    if (!phase) {
+      return res.status(400).json({ message: "Phase required" });
+    }
+
+    // 🔹 Normalize user input
+    const normalizedPhase = phase.trim().toUpperCase();
+
+    // 🔹 Validate enum
+    if (!allowedPhases.includes(normalizedPhase)) {
+      return res.status(400).json({
+        message: "Invalid life phase",
+        allowedPhases,
+      });
+    }
 
     await prisma.user.update({
       where: { id: req.user.id },
-      data: { currentPhase: phase },
+      data: { currentPhase: normalizedPhase }, // ✅ ENUM SAFE
     });
 
-    res.json({ message: `Phase set to ${phase}` });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.json({ message: `Phase set to ${normalizedPhase}` });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 };
