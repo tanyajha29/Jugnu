@@ -1,0 +1,17 @@
+.input-glow {
+  background: rgba(255,255,255,0.2);
+  border-radius: 12px;
+  padding: 12px;
+  outline: none;
+  transition: box-shadow 0.3s;
+}
+
+.input-glow:focus {
+  box-shadow: 0 0 20px rgba(255,255,255,0.6);
+}
+
+.btn-primary {
+  background: rgba(255,255,255,0.25);
+  padding: 12px;
+  border-radius: 14px;
+}
