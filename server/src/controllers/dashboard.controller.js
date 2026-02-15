@@ -1,15 +1,14 @@
 const prisma = require("../config/db");
 const { sendSuccess } = require("../utils/http");
-const prompts = require("../utils/reflections.prompts");
-
-const fallbackMessages = {
-  STRESS: "It's okay to pause. Let's take one slow breath together.",
-  ANXIETY: "You're safe in this moment. We can move gently, one step at a time.",
-  LONELINESS: "You're not alone here. I'm glad you showed up today.",
-  CONFUSION: "It's okay not to have everything figured out right now.",
-  LOW_MOTIVATION: "Small steps still count. Let's keep it light and kind.",
-  CALM: "Hold onto this steadiness. You're doing well.",
-};
+const {
+  fallbackDailyMessages,
+  fallbackReflectionPrompt,
+} = require("../services/ai.prompts");
+const {
+  generateDailyMessage,
+  generateReflectionPrompt,
+  generateWeeklyInsight,
+} = require("../services/ai.service");
 
 const getTimeOfDay = (date = new Date()) => {
   const hour = date.getHours();
@@ -48,50 +47,12 @@ const buildWeeklyTrend = (moods) => {
   });
 };
 
-const buildWeeklyInsight = (weeklyTrend) => {
-  const moodValues = weeklyTrend
-    .map((entry) => entry.mood)
-    .filter((value) => typeof value === "number");
-
-  if (moodValues.length < 2) {
-    return {
-      trend: "NO_DATA",
-      summary: "We'll learn your rhythm over time. Keep checking in gently.",
-      averageMood: moodValues[0] ?? null,
-    };
-  }
-
-  const averageMood =
-    moodValues.reduce((sum, value) => sum + value, 0) / moodValues.length;
-  const first = moodValues[0];
-  const last = moodValues[moodValues.length - 1];
-
-  let trend = "STABLE";
-  if (last > first) trend = "IMPROVING";
-  if (last < first) trend = "DECLINING";
-
-  const summaries = {
-    IMPROVING:
-      "Your week looks a little lighter toward the end. That's worth noticing.",
-    DECLINING:
-      "It looks like the week felt heavier over time. Let's keep things gentle.",
-    STABLE:
-      "Your mood has been fairly steady this week. Consistency can be calming.",
-  };
-
-  return {
-    trend,
-    summary: summaries[trend],
-    averageMood: Number(averageMood.toFixed(2)),
-  };
-};
-
 exports.getDashboard = async (req, res, next) => {
   try {
     const user = req.user;
     const userId = user.id;
     const phase = user.currentPhase || "CALM";
-    const safePhase = fallbackMessages[phase] ? phase : "CALM";
+    const safePhase = fallbackDailyMessages[phase] ? phase : "CALM";
 
     const sevenDaysAgo = new Date();
     sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
@@ -105,27 +66,59 @@ exports.getDashboard = async (req, res, next) => {
     });
 
     const weeklyTrend = buildWeeklyTrend(moods);
-    const insight = buildWeeklyInsight(weeklyTrend);
 
-    const dailyMessage = await prisma.dailyMessage.findFirst({
-      where: { phase: safePhase },
-      orderBy: { createdAt: "desc" },
-    });
+    const averageMood =
+      moods.length > 0
+        ? moods.reduce((sum, mood) => sum + mood.value, 0) / moods.length
+        : null;
+
+    const timeOfDay = getTimeOfDay();
+
+    const recentMoods = moods
+      .slice()
+      .sort((a, b) => b.date - a.date)
+      .slice(0, 3)
+      .map((mood) => mood.value);
+
+    const [dailyMessage, reflectionPrompt, weeklyInsight] = await Promise.all([
+      generateDailyMessage({
+        userId: userId,
+        currentPhase: safePhase,
+        lastThreeMoods: recentMoods,
+        timeOfDay,
+        allowFallbackOnLimit: true,
+      }),
+      generateReflectionPrompt({
+        userId: userId,
+        currentPhase: safePhase,
+        latestMood: recentMoods[0],
+        allowFallbackOnLimit: true,
+      }),
+      generateWeeklyInsight({
+        userId: userId,
+        weeklyTrend,
+        averageMood,
+        allowFallbackOnLimit: true,
+      }),
+    ]);
 
     return sendSuccess(res, {
-      timeOfDay: getTimeOfDay(),
+      timeOfDay,
       userName: user.name,
       currentPhase: safePhase,
+      latestMood: recentMoods[0] ?? null,
       reflectionPrompt: {
-        text: prompts[safePhase] || "What felt most present for you today?",
+        text: reflectionPrompt.prompt || fallbackReflectionPrompt,
+        source: reflectionPrompt.source || "fallback",
       },
-      insight,
+      insight: weeklyInsight,
       dailyMessage: {
-        text: dailyMessage?.message || fallbackMessages[safePhase],
-        source: dailyMessage ? "seed" : "fallback",
-        generatedAt: dailyMessage?.createdAt || new Date(),
+        text: dailyMessage.text,
+        source: dailyMessage.source,
+        generatedAt: dailyMessage.generatedAt,
       },
       weeklyTrend,
+      averageMood,
     });
   } catch (error) {
     next(error);

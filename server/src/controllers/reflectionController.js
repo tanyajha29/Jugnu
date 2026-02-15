@@ -1,8 +1,9 @@
 const prisma = require("../config/db");
-const prompts = require("../utils/reflections.prompts");
 const { sendSuccess, sendError } = require("../utils/http");
-
-const fallbackPrompt = "What felt most present for you today?";
+const {
+  generateReflectionPrompt,
+  RateLimitError,
+} = require("../services/ai.service");
 
 exports.addReflection = async (req, res, next) => {
   try {
@@ -40,9 +41,27 @@ exports.addReflection = async (req, res, next) => {
   }
 };
 
-exports.getPrompt = (req, res) => {
-  const phase = req.user?.currentPhase;
-  return sendSuccess(res, { prompt: prompts[phase] || fallbackPrompt });
+exports.getPrompt = async (req, res, next) => {
+  try {
+    const phase = req.user?.currentPhase || "CALM";
+    const latestMood = await prisma.mood.findFirst({
+      where: { userId: req.user.id },
+      orderBy: { date: "desc" },
+    });
+
+    const aiPrompt = await generateReflectionPrompt({
+      userId: req.user.id,
+      currentPhase: phase,
+      latestMood: latestMood?.value,
+    });
+
+    return sendSuccess(res, { prompt: aiPrompt.prompt, source: aiPrompt.source });
+  } catch (err) {
+    if (err instanceof RateLimitError) {
+      return sendError(res, 429, err.code, err.message);
+    }
+    next(err);
+  }
 };
 
 exports.getReflections = async (req, res, next) => {

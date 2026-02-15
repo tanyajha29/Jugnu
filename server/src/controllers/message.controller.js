@@ -1,5 +1,9 @@
 const prisma = require("../config/db");
-const { sendSuccess } = require("../utils/http");
+const { sendSuccess, sendError } = require("../utils/http");
+const {
+  generateDailyMessage,
+  RateLimitError,
+} = require("../services/ai.service");
 
 const fallbackMessages = {
   STRESS: "It's okay to pause. Let's take one slow breath together.",
@@ -15,20 +19,36 @@ exports.getDailyMessage = async (req, res, next) => {
     const userPhase = req.user?.currentPhase || "CALM";
     const safePhase = fallbackMessages[userPhase] ? userPhase : "CALM";
 
-    const message = await prisma.dailyMessage.findFirst({
-      where: { phase: safePhase },
-      orderBy: { createdAt: "desc" },
+    const recentMoods = await prisma.mood.findMany({
+      where: { userId: req.user.id },
+      orderBy: { date: "desc" },
+      take: 3,
     });
 
-    const text = message?.message || fallbackMessages[safePhase];
+    const timeOfDay = (() => {
+      const hour = new Date().getHours();
+      if (hour < 12) return "morning";
+      if (hour < 18) return "afternoon";
+      return "evening";
+    })();
+
+    const aiMessage = await generateDailyMessage({
+      userId: req.user.id,
+      currentPhase: safePhase,
+      lastThreeMoods: recentMoods.map((mood) => mood.value),
+      timeOfDay,
+    });
 
     return sendSuccess(res, {
-      text,
+      text: aiMessage.text,
       phase: safePhase,
-      generatedAt: message?.createdAt || new Date(),
-      source: message ? "seed" : "fallback",
+      generatedAt: aiMessage.generatedAt,
+      source: aiMessage.source,
     });
   } catch (err) {
+    if (err instanceof RateLimitError) {
+      return sendError(res, 429, err.code, err.message);
+    }
     next(err);
   }
 };
