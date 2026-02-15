@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { EmotionContext } from "..//../context/EmotionContext";
+import { EmotionContext } from "../../context/EmotionContext";
 import DashboardBackground from "../dashboard/DashboardBackground";
 import GreetingCard from "../dashboard/GreetingCard";
 import WeeklyMoodChart from "../dashboard/WeeklyChart";

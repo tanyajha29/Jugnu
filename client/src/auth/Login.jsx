@@ -8,6 +8,7 @@ export default function Login() {
   const { login } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   return (
     <AuthBackground>
@@ -19,7 +20,7 @@ export default function Login() {
       >
         <GlassCard>
           <h2 className="text-2xl font-semibold mb-2 text-white">
-            Welcome back 🌙
+            Welcome back ðŸŒ™
           </h2>
 
           <p className="text-white/70 mb-6">
@@ -40,7 +41,16 @@ export default function Login() {
           />
 
           <button
-            onClick={() => login(email, password)}
+            onClick={async () => {
+              setError("");
+              try {
+                await login(email, password);
+              } catch (err) {
+                setError(
+                  err?.response?.data?.message || "Login failed. Try again."
+                );
+              }
+            }}
             className="
               w-full py-3 rounded-lg
               bg-white/30 hover:bg-white/40
@@ -51,8 +61,14 @@ export default function Login() {
             Continue gently
           </button>
 
+          {error && (
+            <p className="mt-4 text-sm text-red-100/90 text-center">
+              {error}
+            </p>
+          )}
+
           <p className="mt-6 text-center text-sm text-white/60">
-            You’re safe here 💛
+            Youâ€™re safe here ðŸ’›
           </p>
         </GlassCard>
       </motion.div>

@@ -1,15 +1,21 @@
 const prisma = require("../config/db");
+const { sendSuccess, sendError } = require("../utils/http");
 
 /**
  * POST /api/mood
  * Add today's mood
  */
-exports.addMood = async (req, res) => {
+exports.addMood = async (req, res, next) => {
   try {
     const { value } = req.body;
 
     if (!value || value < 1 || value > 5) {
-      return res.status(400).json({ message: "Mood must be between 1 and 5" });
+      return sendError(
+        res,
+        400,
+        "VALIDATION_ERROR",
+        "Mood must be between 1 and 5"
+      );
     }
 
     const mood = await prisma.mood.create({
@@ -19,9 +25,9 @@ exports.addMood = async (req, res) => {
       }
     });
 
-    res.status(201).json(mood);
+    return res.status(201).json({ success: true, data: mood });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    next(error);
   }
 };
 
@@ -29,7 +35,7 @@ exports.addMood = async (req, res) => {
  * GET /api/mood/history
  * Last 7 days mood history
  */
-exports.getMoodHistory = async (req, res) => {
+exports.getMoodHistory = async (req, res, next) => {
   try {
     const sevenDaysAgo = new Date();
     sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
@@ -46,9 +52,9 @@ exports.getMoodHistory = async (req, res) => {
       }
     });
 
-    res.json(moods);
+    return sendSuccess(res, moods);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    next(error);
   }
 };
 
@@ -56,7 +62,7 @@ exports.getMoodHistory = async (req, res) => {
  * GET /api/mood/weekly-trend
  * Mood analytics (average + trend)
  */
-exports.getWeeklyMoodTrend = async (req, res) => {
+exports.getWeeklyMoodTrend = async (req, res, next) => {
   try {
     const sevenDaysAgo = new Date();
     sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
@@ -70,10 +76,7 @@ exports.getWeeklyMoodTrend = async (req, res) => {
     });
 
     if (moods.length === 0) {
-      return res.json({
-        averageMood: 0,
-        trend: "NO_DATA"
-      });
+      return sendSuccess(res, { averageMood: 0, trend: "NO_DATA" });
     }
 
     const total = moods.reduce((sum, m) => sum + m.value, 0);
@@ -86,12 +89,12 @@ exports.getWeeklyMoodTrend = async (req, res) => {
     if (last > first) trend = "IMPROVING";
     if (last < first) trend = "DECLINING";
 
-    res.json({
+    return sendSuccess(res, {
       averageMood,
       trend,
-      dataPoints: moods.length
+      dataPoints: moods.length,
     });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    next(error);
   }
 };

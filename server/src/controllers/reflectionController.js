@@ -1,42 +1,67 @@
 const prisma = require("../config/db");
-const prompts=require("../utils/reflections.prompts");
-exports.addReflection = async (req, res) => {
-  try {
-    const { question, answer } = req.body;
+const prompts = require("../utils/reflections.prompts");
+const { sendSuccess, sendError } = require("../utils/http");
 
-    if (!question || !answer) {
-      return res.status(400).json({ message: "Question and answer are required" });
+const fallbackPrompt = "What felt most present for you today?";
+
+exports.addReflection = async (req, res, next) => {
+  try {
+    const { prompt, question, answer } = req.body;
+    const resolvedPrompt = prompt || question;
+
+    if (!resolvedPrompt || !answer) {
+      return sendError(
+        res,
+        400,
+        "VALIDATION_ERROR",
+        "Prompt and answer are required"
+      );
     }
 
     const reflection = await prisma.reflection.create({
       data: {
-        question,
+        question: resolvedPrompt,
         answer,
-        userId: req.user.id
-      }
+        userId: req.user.id,
+      },
     });
 
-    res.status(201).json(reflection);
+    return res.status(201).json({
+      success: true,
+      data: {
+        id: reflection.id,
+        prompt: reflection.question,
+        answer: reflection.answer,
+        date: reflection.date,
+      },
+    });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    next(error);
   }
 };
 
-
 exports.getPrompt = (req, res) => {
-  res.json({ prompt: prompts[req.user.currentPhase] });
+  const phase = req.user?.currentPhase;
+  return sendSuccess(res, { prompt: prompts[phase] || fallbackPrompt });
 };
 
-
-exports.getReflections = async (req, res) => {
+exports.getReflections = async (req, res, next) => {
   try {
     const reflections = await prisma.reflection.findMany({
       where: { userId: req.user.id },
-      orderBy: { date: "desc" }
+      orderBy: { date: "desc" },
     });
 
-    res.json(reflections);
+    return sendSuccess(
+      res,
+      reflections.map((reflection) => ({
+        id: reflection.id,
+        prompt: reflection.question,
+        answer: reflection.answer,
+        date: reflection.date,
+      }))
+    );
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    next(error);
   }
 };

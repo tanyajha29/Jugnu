@@ -4,6 +4,9 @@ import GlassCard from "../layout/GlassCard";
 
 export default function GreetingCard() {
   const { dashboard, theme } = useContext(EmotionContext);
+  const phaseLabel = dashboard?.currentPhase
+    ? dashboard.currentPhase.toLowerCase().replace(/_/g, " ")
+    : "neutral";
 
   return (
     <GlassCard className={`shadow-xl ${theme.glow}`}>
@@ -12,7 +15,7 @@ export default function GreetingCard() {
       </h2>
 
       <p className="text-white/80">
-        You seem {dashboard.currentPhase.toLowerCase()} today.
+        You seem {phaseLabel} today.
         <br />
         {theme.messageTone}
       </p>

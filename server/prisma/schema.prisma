@@ -14,6 +14,7 @@ enum LifePhase {
   ANXIETY
   CONFUSION
   LOW_MOTIVATION
+  CALM
 }
 
 model User {
@@ -23,8 +24,8 @@ model User {
   password      String
   currentPhase  LifePhase?
   createdAt     DateTime   @default(now())
-moods       Mood[]
-  reflections Reflection[]
+  moods         Mood[]
+  reflections  Reflection[]
 }
 
 model Mood {

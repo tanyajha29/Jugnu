@@ -1,8 +1,14 @@
 import axios from "./axios";
 
-export const fetchDashboard = () => axios.get("/dashboard");
-export const fetchDailyMessage = () => axios.get("/message/daily");
-export const fetchWeeklyMood = () => axios.get("/mood/weekly");
-export const postMood = (data) => axios.post("/mood", data);
-export const fetchReflectionPrompt = () => axios.get("/reflection/prompt");
-export const postReflection = (data) => axios.post("/reflection", data);
+export const fetchDashboard = async () =>
+  (await axios.get("/dashboard")).data.data;
+export const fetchDailyMessage = async () =>
+  (await axios.get("/message/daily")).data.data;
+export const fetchWeeklyMood = async () =>
+  (await axios.get("/mood/weekly")).data.data;
+export const postMood = async (data) =>
+  (await axios.post("/mood", data)).data.data;
+export const fetchReflectionPrompt = async () =>
+  (await axios.get("/reflection/prompt")).data.data;
+export const postReflection = async (data) =>
+  (await axios.post("/reflection", data)).data.data;

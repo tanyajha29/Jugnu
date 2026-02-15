@@ -11,7 +11,7 @@ export default function WeeklyMoodChart() {
       <h3 className="text-white mb-4">Your week 🌱</h3>
 
       <ResponsiveContainer width="100%" height={200}>
-        <LineChart data={dashboard.weeklyTrend}>
+        <LineChart data={dashboard.weeklyTrend || []}>
           <XAxis dataKey="day" stroke="white" />
           <Tooltip />
           <Line

@@ -14,7 +14,7 @@ export default function DailyMessage() {
         transition={{ duration: 1.2 }}
         className="text-xl text-white text-center leading-relaxed"
       >
-        {dashboard.dailyMessage}
+        {dashboard.dailyMessage?.text || "Take a gentle breath. You are safe here."}
       </motion.p>
     </GlassCard>
   );

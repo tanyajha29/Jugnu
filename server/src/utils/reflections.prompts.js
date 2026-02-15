@@ -3,5 +3,6 @@ module.exports = {
   ANXIETY: "What made you anxious?",
   LONELINESS: "When did you feel alone?",
   CONFUSION: "What confused you today?",
-  LOW_MOTIVATION: "What drained your energy?"
+  LOW_MOTIVATION: "What drained your energy?",
+  CALM: "What helped you feel steady today?"
 };

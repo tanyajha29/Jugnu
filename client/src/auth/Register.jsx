@@ -10,6 +10,7 @@ export default function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   return (
     <AuthBackground>
@@ -21,7 +22,7 @@ export default function Register() {
       >
         <GlassCard>
           <h2 className="text-2xl font-semibold mb-2 text-white">
-            Start your journey 🌸
+            Start your journey ðŸŒ¸
           </h2>
 
           {name && (
@@ -30,7 +31,7 @@ export default function Register() {
               animate={{ opacity: 1 }}
               className="text-white/80 mb-4"
             >
-              Hi <span className="font-medium">{name}</span> 💗, we’re glad you’re here.
+              Hi <span className="font-medium">{name}</span> ðŸ’—, weâ€™re glad youâ€™re here.
             </motion.p>
           )}
 
@@ -54,7 +55,16 @@ export default function Register() {
           />
 
           <button
-            onClick={() => register(name, email, password)}
+            onClick={async () => {
+              setError("");
+              try {
+                await register({ name, email, password });
+              } catch (err) {
+                setError(
+                  err?.response?.data?.message || "Registration failed. Try again."
+                );
+              }
+            }}
             className="
               w-full py-3 rounded-lg
               bg-white/30 hover:bg-white/40
@@ -65,8 +75,14 @@ export default function Register() {
             Begin my journey
           </button>
 
+          {error && (
+            <p className="mt-4 text-sm text-red-100/90 text-center">
+              {error}
+            </p>
+          )}
+
           <p className="mt-6 text-center text-sm text-white/60">
-            We’ll take care of you here 🌷
+            Weâ€™ll take care of you here ðŸŒ·
           </p>
         </GlassCard>
       </motion.div>

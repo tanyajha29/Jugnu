@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import LoginPage from "./components/pages/LoginPage";
 import RegisterPage from "./components/pages/RegisterPage";
-import Dashboard from "./components/pages/dashboard";
+import Dashboard from "./components/pages/Dashboard";
 import ProtectedRoute from "./ProtectedRoute";
 
 export default function App() {

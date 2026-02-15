@@ -1,27 +1,5 @@
 const prisma = require("../config/db");
-
-exports.getMe = async (req, res) => {
-  try {
-    const user = await prisma.user.findUnique({
-      where: { id: req.user.id },
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        createdAt: true,
-        currentPhase: true
-      }
-    });
-
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-
-    res.json(user);
-  } catch (error) {
-    res.status(500).json({ message: "Failed to fetch user profile" });
-  }
-};
+const { sendSuccess, sendError } = require("../utils/http");
 
 const allowedPhases = [
   "STRESS",
@@ -29,46 +7,71 @@ const allowedPhases = [
   "LONELINESS",
   "CONFUSION",
   "LOW_MOTIVATION",
+  "CALM",
 ];
 
-exports.getPhase = async (req, res) => {
+exports.getMe = async (req, res, next) => {
+  try {
+    if (req.user) {
+      return sendSuccess(res, req.user);
+    }
+
+    const user = await prisma.user.findUnique({
+      where: { id: req.user.id },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        createdAt: true,
+        currentPhase: true,
+      },
+    });
+
+    if (!user) {
+      return sendError(res, 404, "NOT_FOUND", "User not found");
+    }
+
+    return sendSuccess(res, user);
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.getPhase = async (req, res, next) => {
   try {
     const user = await prisma.user.findUnique({
       where: { id: req.user.id },
       select: { currentPhase: true },
     });
-    res.json({ currentPhase: user.currentPhase });
+    return sendSuccess(res, { currentPhase: user.currentPhase });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    next(err);
   }
 };
 
-exports.setPhase = async (req, res) => {
+exports.setPhase = async (req, res, next) => {
   try {
     let { phase } = req.body;
 
     if (!phase) {
-      return res.status(400).json({ message: "Phase required" });
+      return sendError(res, 400, "VALIDATION_ERROR", "Phase required");
     }
 
-    // 🔹 Normalize user input
     const normalizedPhase = phase.trim().toUpperCase();
 
-    // 🔹 Validate enum
     if (!allowedPhases.includes(normalizedPhase)) {
-      return res.status(400).json({
-        message: "Invalid life phase",
+      return sendError(res, 400, "VALIDATION_ERROR", "Invalid life phase", {
         allowedPhases,
       });
     }
 
     await prisma.user.update({
       where: { id: req.user.id },
-      data: { currentPhase: normalizedPhase }, // ✅ ENUM SAFE
+      data: { currentPhase: normalizedPhase },
     });
 
-    res.json({ message: `Phase set to ${normalizedPhase}` });
+    return sendSuccess(res, { message: `Phase set to ${normalizedPhase}` });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    next(error);
   }
 };
