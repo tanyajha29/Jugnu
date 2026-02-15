@@ -5,38 +5,59 @@ export const EmotionContext = createContext();
 
 const EMOTION_THEMES = {
   STRESS: {
-    gradient: "from-red-300 via-orange-300 to-orange-400",
-    glow: "shadow-red-300/40",
-    messageTone: "Letâ€™s slow things down.",
+    gradientClass: "from-rose-500/40 via-orange-400/30 to-amber-400/30",
+    glow: "shadow-rose-300/40",
+    glowColor: "rgba(251, 113, 133, 0.35)",
+    accent: "#FCA5A5",
+    particleSpeed: "18s",
+    messageTone: "Let's slow things down.",
   },
   ANXIETY: {
-    gradient: "from-amber-200 via-orange-200 to-orange-300",
+    gradientClass: "from-amber-400/30 via-orange-300/20 to-yellow-300/30",
     glow: "shadow-orange-300/40",
-    messageTone: "Youâ€™re not alone in this. One breath at a time.",
+    glowColor: "rgba(253, 186, 116, 0.35)",
+    accent: "#FDBA74",
+    particleSpeed: "20s",
+    messageTone: "You're not alone in this. One breath at a time.",
   },
   LONELINESS: {
-    gradient: "from-indigo-300 via-blue-300 to-indigo-400",
+    gradientClass: "from-indigo-400/30 via-blue-400/30 to-sky-400/30",
     glow: "shadow-indigo-300/40",
-    messageTone: "You donâ€™t have to carry this alone.",
+    glowColor: "rgba(165, 180, 252, 0.35)",
+    accent: "#A5B4FC",
+    particleSpeed: "22s",
+    messageTone: "You don't have to carry this alone.",
   },
   CONFUSION: {
-    gradient: "from-slate-200 via-gray-300 to-slate-400",
+    gradientClass: "from-slate-400/30 via-gray-300/30 to-slate-500/30",
     glow: "shadow-gray-300/40",
-    messageTone: "Itâ€™s okay not to have all the answers today.",
+    glowColor: "rgba(203, 213, 225, 0.35)",
+    accent: "#CBD5E1",
+    particleSpeed: "24s",
+    messageTone: "It's okay not to have all the answers today.",
   },
   LOW_MOTIVATION: {
-    gradient: "from-teal-200 via-emerald-200 to-green-300",
+    gradientClass: "from-teal-300/30 via-emerald-300/20 to-lime-300/30",
     glow: "shadow-emerald-300/40",
-    messageTone: "Weâ€™ll take it gently, one small step at a time.",
+    glowColor: "rgba(110, 231, 183, 0.35)",
+    accent: "#6EE7B7",
+    particleSpeed: "26s",
+    messageTone: "We'll take it gently, one small step at a time.",
   },
   CALM: {
-    gradient: "from-emerald-300 via-sky-300 to-blue-400",
+    gradientClass: "from-emerald-400/30 via-sky-400/25 to-blue-400/30",
     glow: "shadow-emerald-300/40",
-    messageTone: "Youâ€™re doing well. Keep breathing.",
+    glowColor: "rgba(110, 231, 183, 0.35)",
+    accent: "#93C5FD",
+    particleSpeed: "28s",
+    messageTone: "You're doing well. Keep breathing.",
   },
   NEUTRAL: {
-    gradient: "from-gray-200 via-gray-300 to-gray-400",
+    gradientClass: "from-slate-500/20 via-gray-400/20 to-slate-600/30",
     glow: "shadow-gray-300/40",
+    glowColor: "rgba(203, 213, 225, 0.25)",
+    accent: "#CBD5E1",
+    particleSpeed: "28s",
     messageTone: "One step at a time.",
   },
 };
@@ -48,6 +69,7 @@ export function EmotionProvider({ children }) {
   useEffect(() => {
     async function loadDashboard() {
       try {
+        // API integration occurs here for dashboard context.
         const data = await fetchDashboard();
         setDashboard(data);
         const phase = data?.currentPhase || "NEUTRAL";

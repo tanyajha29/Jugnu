@@ -19,6 +19,11 @@ export default function GreetingCard() {
         <br />
         {theme.messageTone}
       </p>
+
+      <p className="mt-4 text-sm text-white/70">
+        {dashboard?.dailyMessage?.text ||
+          "Daily message placeholder: Your calm companion is here."}
+      </p>
     </GlassCard>
   );
 }
