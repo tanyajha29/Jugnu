@@ -20,6 +20,14 @@ export default function PhaseBackground({ children }) {
         "--particle-speed": theme.particleSpeed,
       }}
     >
+      <div className="phase-mesh" aria-hidden="true" />
+      <div className="phase-noise" aria-hidden="true" />
+      <div className="phase-blobs" aria-hidden="true">
+        <span className="phase-blob blob-1" />
+        <span className="phase-blob blob-2" />
+        <span className="phase-blob blob-3" />
+      </div>
+
       {/* Particle effect is configured here. */}
       <div className="fireflies" aria-hidden="true">
         {Array.from({ length: 12 }).map((_, index) => (
