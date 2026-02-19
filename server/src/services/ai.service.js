@@ -8,8 +8,7 @@ const {
 } = require("./ai.prompts");
 const { safeOutput } = require("./ai.safety");
 
-const OLLAMA_URL =
-  process.env.OLLAMA_URL || "http://localhost:11434/api/generate";
+const OLLAMA_URL = process.env.OLLAMA_URL;
 const OLLAMA_MODEL = process.env.OLLAMA_MODEL || "mistral";
 const OLLAMA_TIMEOUT_MS = Number(process.env.OLLAMA_TIMEOUT_MS || 6000);
 
@@ -38,6 +37,9 @@ const withTimeout = async (promise, timeoutMs) => {
 };
 
 const callOllama = async (prompt) => {
+  if (!OLLAMA_URL) {
+    throw new Error("OLLAMA_URL not set");
+  }
   const response = await withTimeout(
     (signal) =>
       fetch(OLLAMA_URL, {

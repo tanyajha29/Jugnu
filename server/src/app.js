@@ -17,6 +17,10 @@ app.use(cors());
 app.use(express.json());
 app.use(requestLogger);
 
+app.get("/health", (req, res) => {
+  res.status(200).json({ status: "ok" });
+});
+
 app.use("/api/mood", moodRoutes);
 app.use("/api/reflection", reflectionRoutes);
 app.use("/api/message", messageRoutes);
