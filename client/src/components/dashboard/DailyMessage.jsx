@@ -7,7 +7,7 @@ export default function DailyMessage() {
   const { dashboard } = useContext(EmotionContext);
 
   return (
-    <GlassCard className="md:col-span-2">
+    <GlassCard variant="subtle">
       <motion.p
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}

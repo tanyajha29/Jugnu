@@ -2,6 +2,9 @@ import { motion } from "framer-motion";
 import PhaseBackground from "../layout/PhaseBackground";
 import GlassCard from "../layout/GlassCard";
 import { Link } from "react-router-dom";
+import forestBg from "../../assets/forest-night-background.gif";
+import lampHero from "../../assets/landing-lamp-hero.webp";
+import cinematicOverlay from "../../assets/cinematic-firefly-overlay.webp";
 
 const fadeUp = {
   initial: { opacity: 0, y: 18 },
@@ -12,43 +15,74 @@ const fadeUp = {
 
 export default function Landing() {
   return (
-    <PhaseBackground>
-      <div className="mx-auto flex w-full max-w-6xl flex-col gap-20">
-        <section className="flex min-h-[60vh] flex-col items-center justify-center text-center">
-          <motion.div
-            className="mb-8 flex h-24 w-24 items-center justify-center rounded-full bg-white/10 shadow-[0_0_30px_var(--phase-glow)]"
-            style={{ "--phase-glow": "var(--phase-glow)" }}
-            {...fadeUp}
-          >
-            <span className="text-3xl font-semibold text-white">J</span>
-          </motion.div>
-
-          <motion.h1
-            className="text-4xl font-semibold text-white md:text-6xl"
-            {...fadeUp}
-          >
-            Jugnu
-          </motion.h1>
-          <motion.p
-            className="mt-4 max-w-2xl text-lg text-white/70 md:text-xl"
-            {...fadeUp}
-          >
-            Your AI companion for emotional clarity.
-          </motion.p>
-
-          <motion.div className="mt-10" {...fadeUp}>
-            <Link
-              to="/dashboard"
-              className="rounded-2xl border border-white/20 bg-white/20 px-8 py-4 text-white shadow-[0_0_25px_var(--phase-glow)] transition hover:bg-white/30"
-              style={{ "--phase-glow": "var(--phase-glow)" }}
+    <PhaseBackground
+      backgroundImage={forestBg}
+      backgroundClassName="phase-cinematic"
+      overlayImage={cinematicOverlay}
+      overlayClassName="phase-overlay-soft"
+      fireflyCount={10}
+      accentOverride="#FCD34D"
+      glowOverride="rgba(252, 211, 77, 0.45)"
+      particleSpeedOverride="24s"
+      className="landing-shell"
+    >
+      <div className="mx-auto flex w-full max-w-6xl flex-col gap-24">
+        <section className="grid min-h-[70vh] grid-cols-1 items-center gap-10 md:grid-cols-12">
+          <div className="md:col-span-7 text-center md:text-left">
+            <motion.div
+              className="mb-8 inline-flex h-16 w-16 items-center justify-center rounded-full bg-white/10 shadow-[0_0_30px_rgba(252,211,77,0.45)]"
+              {...fadeUp}
             >
-              Start Your Journey
-            </Link>
+              <span className="text-2xl font-semibold text-white">J</span>
+            </motion.div>
+
+            <motion.h1
+              className="text-5xl font-semibold text-white md:text-6xl"
+              {...fadeUp}
+            >
+              Your emotions deserve intelligence.
+            </motion.h1>
+            <motion.p
+              className="mt-4 max-w-2xl text-lg text-white/70 md:text-xl"
+              {...fadeUp}
+            >
+              AI-powered emotional awareness that feels calm, grounded, and
+              responsive.
+            </motion.p>
+
+            <motion.div className="mt-10 flex flex-wrap justify-center gap-4 md:justify-start" {...fadeUp}>
+              <Link
+                to="/dashboard"
+                className="rounded-2xl border border-white/20 bg-white/20 px-8 py-4 text-white shadow-[0_0_25px_rgba(252,211,77,0.45)] transition hover:bg-white/30"
+              >
+                Get Started
+              </Link>
+              <Link
+                to="/insights"
+                className="rounded-2xl border border-white/30 px-8 py-4 text-white/80 transition hover:bg-white/10"
+              >
+                See Demo
+              </Link>
+            </motion.div>
+          </div>
+
+          <motion.div
+            className="relative flex items-center justify-center md:col-span-5"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9 }}
+          >
+            <div className="absolute inset-0 rounded-full bg-amber-200/10 blur-3xl" />
+            <img
+              src={lampHero}
+              alt="Floating lamp"
+              className="w-full max-w-sm animate-[float_6s_ease-in-out_infinite]"
+            />
           </motion.div>
         </section>
 
         <motion.section
-          className="grid gap-6 md:grid-cols-2"
+          className="grid gap-8 md:grid-cols-2"
           {...fadeUp}
         >
           <GlassCard>

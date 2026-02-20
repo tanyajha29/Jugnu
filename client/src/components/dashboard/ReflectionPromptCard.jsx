@@ -15,7 +15,7 @@ export default function ReflectionPromptCard() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, delay: 0.1 }}
     >
-      <GlassCard className="h-full">
+      <GlassCard className="h-full" variant="subtle">
         <h3 className="text-lg font-semibold text-white">Reflection Prompt</h3>
         <p className="mt-3 text-white/70">{promptText}</p>
       </GlassCard>

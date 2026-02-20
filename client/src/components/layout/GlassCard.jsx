@@ -14,8 +14,8 @@ export default function GlassCard({
 
   const variantClass = {
     default: "text-white/90",
-    dark: "bg-slate-900/30 text-white/90",
-    subtle: "text-white/80",
+    elevated: "bg-white/10 text-white/95",
+    subtle: "bg-white/5 text-white/80",
   }[variant] || "text-white/90";
 
   const hoverClass = hover
@@ -24,7 +24,7 @@ export default function GlassCard({
 
   const baseClassName = `
     w-full
-    rounded-2xl
+    rounded-[24px]
     border
     shadow-[0_8px_24px_rgba(15,23,42,0.25)]
     ${intensityClass}

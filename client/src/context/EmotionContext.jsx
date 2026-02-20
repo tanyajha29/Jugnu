@@ -9,7 +9,8 @@ const EMOTION_THEMES = {
     glow: "shadow-rose-300/40",
     glowColor: "rgba(251, 113, 133, 0.35)",
     accent: "#FCA5A5",
-    particleSpeed: "18s",
+    particleSpeed: "22s",
+    fireflyCount: 8,
     messageTone: "Let's slow things down.",
   },
   ANXIETY: {
@@ -18,6 +19,7 @@ const EMOTION_THEMES = {
     glowColor: "rgba(253, 186, 116, 0.35)",
     accent: "#FDBA74",
     particleSpeed: "20s",
+    fireflyCount: 9,
     messageTone: "You're not alone in this. One breath at a time.",
   },
   LONELINESS: {
@@ -25,7 +27,8 @@ const EMOTION_THEMES = {
     glow: "shadow-indigo-300/40",
     glowColor: "rgba(165, 180, 252, 0.35)",
     accent: "#A5B4FC",
-    particleSpeed: "22s",
+    particleSpeed: "28s",
+    fireflyCount: 7,
     messageTone: "You don't have to carry this alone.",
   },
   CONFUSION: {
@@ -33,7 +36,8 @@ const EMOTION_THEMES = {
     glow: "shadow-gray-300/40",
     glowColor: "rgba(203, 213, 225, 0.35)",
     accent: "#CBD5E1",
-    particleSpeed: "24s",
+    particleSpeed: "26s",
+    fireflyCount: 7,
     messageTone: "It's okay not to have all the answers today.",
   },
   LOW_MOTIVATION: {
@@ -41,7 +45,8 @@ const EMOTION_THEMES = {
     glow: "shadow-emerald-300/40",
     glowColor: "rgba(110, 231, 183, 0.35)",
     accent: "#6EE7B7",
-    particleSpeed: "26s",
+    particleSpeed: "30s",
+    fireflyCount: 6,
     messageTone: "We'll take it gently, one small step at a time.",
   },
   CALM: {
@@ -49,7 +54,8 @@ const EMOTION_THEMES = {
     glow: "shadow-emerald-300/40",
     glowColor: "rgba(110, 231, 183, 0.35)",
     accent: "#93C5FD",
-    particleSpeed: "28s",
+    particleSpeed: "32s",
+    fireflyCount: 6,
     messageTone: "You're doing well. Keep breathing.",
   },
   NEUTRAL: {
@@ -57,7 +63,8 @@ const EMOTION_THEMES = {
     glow: "shadow-gray-300/40",
     glowColor: "rgba(203, 213, 225, 0.25)",
     accent: "#CBD5E1",
-    particleSpeed: "28s",
+    particleSpeed: "30s",
+    fireflyCount: 6,
     messageTone: "One step at a time.",
   },
 };

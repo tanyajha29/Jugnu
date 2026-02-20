@@ -15,7 +15,7 @@ export default function WeeklyInsightCard() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8 }}
     >
-      <GlassCard className="h-full">
+      <GlassCard className="h-full" variant="elevated">
         <h3 className="text-lg font-semibold text-white">Weekly AI Insight</h3>
         <p className="mt-3 text-white/70">{insightText}</p>
       </GlassCard>

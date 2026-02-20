@@ -9,8 +9,12 @@ export default function GreetingCard() {
     : "neutral";
 
   return (
-    <GlassCard className={`shadow-xl ${theme.glow}`}>
-      <h2 className="text-2xl font-semibold text-white mb-2">
+    <GlassCard
+      gradientBorder
+      variant="elevated"
+      className={`shadow-xl ${theme.glow}`}
+    >
+      <h2 className="text-[32px] md:text-[34px] font-semibold text-white mb-2">
         Good {dashboard.timeOfDay}, {dashboard.userName} 🌙
       </h2>
 

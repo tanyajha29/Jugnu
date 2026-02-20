@@ -29,7 +29,10 @@ input:focus {
 }
 
 .phase-background {
-  animation: phaseGlow var(--particle-speed, 20s) ease-in-out infinite;
+  background-size: 200% 200%;
+  animation:
+    phaseGlow var(--particle-speed, 20s) ease-in-out infinite,
+    gradientShift 40s ease infinite;
 }
 
 .phase-mesh {
@@ -43,6 +46,60 @@ input:focus {
   opacity: 0.6;
   filter: blur(0.5px);
   animation: meshShift calc(var(--particle-speed, 20s) * 1.2) ease-in-out infinite;
+  pointer-events: none;
+}
+
+.phase-cinematic {
+  position: absolute;
+  inset: -5%;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  opacity: 0.6;
+  filter: saturate(0.8) brightness(0.7);
+  transform: scale(1.05);
+  transition: opacity 600ms ease, filter 600ms ease;
+  pointer-events: none;
+}
+
+.phase-cinematic--blur {
+  filter: saturate(0.65) brightness(0.55) blur(10px);
+  opacity: 0.75;
+}
+
+.phase-overlay-image {
+  position: absolute;
+  inset: 0;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  opacity: 0.3;
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+.phase-overlay-soft {
+  opacity: 0.25;
+  filter: blur(1px);
+}
+
+.phase-overlay-hands {
+  background-position: bottom right;
+  background-size: min(720px, 70vw);
+  opacity: 0.4;
+  mix-blend-mode: screen;
+}
+
+.auth-spotlight {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(520px, 80vw);
+  height: min(520px, 80vw);
+  transform: translate(-50%, -55%);
+  background: radial-gradient(circle, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.04) 45%, transparent 70%);
+  filter: blur(8px);
+  opacity: 0.6;
   pointer-events: none;
 }
 
@@ -130,6 +187,12 @@ input:focus {
   100% { filter: saturate(1) brightness(1); }
 }
 
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
 @keyframes meshShift {
   0% { transform: translate3d(0, 0, 0) scale(1); }
   50% { transform: translate3d(-2%, 1%, 0) scale(1.02); }
@@ -157,4 +220,10 @@ input:focus {
   0% { transform: scale(1); box-shadow: 0 0 18px var(--phase-glow, rgba(255,255,255,0.3)); }
   50% { transform: scale(1.06); box-shadow: 0 0 32px var(--phase-glow, rgba(255,255,255,0.5)); }
   100% { transform: scale(1); box-shadow: 0 0 18px var(--phase-glow, rgba(255,255,255,0.3)); }
+}
+
+@keyframes float {
+  0% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(0, -12px, 0); }
+  100% { transform: translate3d(0, 0, 0); }
 }
