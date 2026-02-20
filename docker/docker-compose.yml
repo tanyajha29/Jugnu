@@ -21,6 +21,8 @@ services:
   ollama:
     image: ollama/ollama:latest
     restart: unless-stopped
+    profiles:
+      - ollama
     volumes:
       - ollama_data:/root/.ollama
     healthcheck:
@@ -46,8 +48,6 @@ services:
       OLLAMA_TIMEOUT_MS: ${OLLAMA_TIMEOUT_MS}
     depends_on:
       postgres:
-        condition: service_healthy
-      ollama:
         condition: service_healthy
     ports:
       - "${PORT:-5000}:5000"

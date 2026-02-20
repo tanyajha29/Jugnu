@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
-import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import GlassCard from "../components/layout/GlassCard";
 import AuthBackground from "../components/layout/AuthBackground";
 
@@ -11,81 +11,80 @@ export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+    try {
+      await register({ name, email, password });
+    } catch (err) {
+      setError(err?.response?.data?.message || "Registration failed. Please check your inputs.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <AuthBackground>
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="w-full flex justify-center"
-      >
-        <GlassCard>
-          <h2 className="text-2xl font-semibold mb-2 text-white">
-            Start your journey ðŸŒ¸
-          </h2>
+      <GlassCard className="flex flex-col gap-32 p-40">
+        <div className="flex flex-col gap-8 text-center md:text-left">
+          <h2 className="text-h2 text-white">Start your journey</h2>
+          <p className="text-white-80">Find your light and understand your patterns.</p>
+        </div>
 
-          {name && (
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="text-white/80 mb-4"
-            >
-              Hi <span className="font-medium">{name}</span> ðŸ’—, weâ€™re glad youâ€™re here.
-            </motion.p>
-          )}
+        <form onSubmit={handleRegister} className="flex flex-col gap-24">
+          <div className="flex flex-col gap-16">
+            <input
+              className="w-full rounded-xl border border-white/10 bg-white/5 px-16 py-12 text-white placeholder-white/40 outline-none transition-all focus:border-white/30 focus:bg-white/10"
+              placeholder="Full name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
 
-          <input
-            className="w-full p-3 rounded-lg mb-4 bg-white/20 text-white placeholder-white/60 outline-none focus:ring-2 focus:ring-white/40"
-            placeholder="Your name"
-            onChange={(e) => setName(e.target.value)}
-          />
+            <input
+              type="email"
+              className="w-full rounded-xl border border-white/10 bg-white/5 px-16 py-12 text-white placeholder-white/40 outline-none transition-all focus:border-white/30 focus:bg-white/10"
+              placeholder="Email address"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
 
-          <input
-            className="w-full p-3 rounded-lg mb-4 bg-white/20 text-white placeholder-white/60 outline-none focus:ring-2 focus:ring-white/40"
-            placeholder="Email"
-            onChange={(e) => setEmail(e.target.value)}
-          />
-
-          <input
-            type="password"
-            className="w-full p-3 rounded-lg mb-6 bg-white/20 text-white placeholder-white/60 outline-none focus:ring-2 focus:ring-white/40"
-            placeholder="Password"
-            onChange={(e) => setPassword(e.target.value)}
-          />
+            <input
+              type="password"
+              className="w-full rounded-xl border border-white/10 bg-white/5 px-16 py-12 text-white placeholder-white/40 outline-none transition-all focus:border-white/30 focus:bg-white/10"
+              placeholder="Create password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
 
           <button
-            onClick={async () => {
-              setError("");
-              try {
-                await register({ name, email, password });
-              } catch (err) {
-                setError(
-                  err?.response?.data?.message || "Registration failed. Try again."
-                );
-              }
-            }}
-            className="
-              w-full py-3 rounded-lg
-              bg-white/30 hover:bg-white/40
-              transition-all duration-300
-              text-white font-medium
-            "
+            type="submit"
+            disabled={loading}
+            className="w-full rounded-xl bg-white/10 py-16 font-semibold text-white transition-all duration-300 hover:bg-white/20 disabled:opacity-50 active:scale-95"
           >
-            Begin my journey
+            {loading ? "Creating account..." : "Begin Journey"}
           </button>
+        </form>
 
-          {error && (
-            <p className="mt-4 text-sm text-red-100/90 text-center">
-              {error}
-            </p>
-          )}
+        {error && (
+          <div className="rounded-xl border border-red-500/20 bg-red-500/10 p-12 text-center text-sm text-red-200">
+            {error}
+          </div>
+        )}
 
-          <p className="mt-6 text-center text-sm text-white/60">
-            Weâ€™ll take care of you here ðŸŒ·
-          </p>
-        </GlassCard>
-      </motion.div>
+        <p className="text-center text-sm text-white-80">
+          Already have an account?{" "}
+          <Link to="/login" className="font-semibold text-white hover:underline">
+            Login here
+          </Link>
+        </p>
+      </GlassCard>
     </AuthBackground>
   );
 }

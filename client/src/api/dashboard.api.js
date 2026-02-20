@@ -12,3 +12,5 @@ export const fetchReflectionPrompt = async () =>
   (await axios.get("/reflection/prompt")).data.data;
 export const postReflection = async (data) =>
   (await axios.post("/reflection", data)).data.data;
+export const fetchReflections = async () =>
+  (await axios.get("/reflection")).data.data;

@@ -10,22 +10,55 @@ html, body {
 body {
   background: #0f172a;
   color: white;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-input {
-  background: rgba(255,255,255,0.15);
-  border: 1px solid rgba(255,255,255,0.2);
+h1, .h1-landing {
+  @apply text-h1-landing font-semibold tracking-tight;
+}
+
+.h1-app {
+  @apply text-h1 font-semibold;
+}
+
+h2 {
+  @apply text-h2 font-semibold;
+}
+
+p, .body-text {
+  @apply text-body text-white-80;
+}
+
+.caption {
+  @apply text-caption text-white-80;
+}
+
+input, textarea {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
   color: white;
+  transition: all 300ms ease;
 }
 
-input::placeholder {
-  color: rgba(255,255,255,0.6);
+input::placeholder, textarea::placeholder {
+  color: rgba(255,255,255,0.4);
 }
 
-input:focus {
+input:focus, textarea:focus {
   outline: none;
-  border-color: rgba(255,255,255,0.6);
-  box-shadow: 0 0 0 2px rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.1);
+  border-color: rgba(255,255,255,0.3);
+  box-shadow: 0 0 0 3px rgba(255,255,255,0.08);
+}
+
+button {
+  transition: all 300ms ease;
+}
+
+button:active:not(:disabled) {
+  transform: scale(0.98);
 }
 
 .phase-background {
@@ -147,14 +180,43 @@ input:focus {
 
 .firefly {
   position: absolute;
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
   border-radius: 9999px;
-  background: var(--phase-accent, rgba(255,255,255,0.6));
-  opacity: 0.6;
-  box-shadow: 0 0 18px var(--phase-glow, rgba(255,255,255,0.3));
-  animation: drift var(--particle-speed, 20s) ease-in-out infinite,
-    pulse 3.5s ease-in-out infinite;
+  background: var(--phase-accent, rgba(255, 255, 255, 0.5));
+  opacity: 0.5;
+  box-shadow: 0 0 12px var(--phase-accent, rgba(255, 255, 255, 0.2));
+  filter: blur(0.5px);
+}
+
+.firefly--drift {
+  animation: drift var(--particle-speed, 40s) ease-in-out infinite,
+    subtle-pulse 4s ease-in-out infinite;
+}
+
+.firefly--pulse {
+  animation: drift 45s ease-in-out infinite,
+    subtle-pulse-soft 5s ease-in-out infinite;
+}
+
+.firefly--floating {
+  animation: gentle-float 50s ease-in-out infinite,
+    subtle-pulse 5s ease-in-out infinite;
+}
+
+.firefly--jitter {
+  animation: gentle-jitter 8s ease-in-out infinite,
+    drift 45s ease-in-out infinite;
+}
+
+.firefly--flicker {
+  animation: gentle-flicker 6s ease-in-out infinite,
+    drift 48s ease-in-out infinite;
+}
+
+.firefly--fade-in {
+  animation: gentle-fade 7s ease-in-out infinite,
+    drift 50s ease-in-out infinite;
 }
 
 .firefly:nth-child(1) { top: 20%; left: 10%; animation-delay: 0s; }
@@ -166,19 +228,47 @@ input:focus {
 .firefly:nth-child(7) { top: 70%; left: 55%; animation-delay: -9s; }
 .firefly:nth-child(8) { top: 25%; left: 85%; animation-delay: -3s; }
 .firefly:nth-child(9) { top: 50%; left: 5%; animation-delay: -11s; }
-.firefly:nth-child(10) { top: 75%; left: 35%; animation-delay: -5s; }
-.firefly:nth-child(11) { top: 30%; left: 30%; animation-delay: -8s; }
-.firefly:nth-child(12) { top: 10%; left: 70%; animation-delay: -2s; }
 
 @keyframes drift {
-  0% { transform: translateY(0) translateX(0) scale(1); }
-  50% { transform: translateY(-18px) translateX(12px) scale(1.1); }
-  100% { transform: translateY(0) translateX(0) scale(1); }
+  0% { transform: translateY(0) translateX(0); }
+  50% { transform: translateY(-20px) translateX(15px); }
+  100% { transform: translateY(0) translateX(0); }
 }
 
-@keyframes pulse {
-  0%, 100% { opacity: 0.4; }
-  50% { opacity: 0.8; }
+@keyframes subtle-pulse {
+  0%, 100% { opacity: 0.4; transform: scale(0.95); }
+  50% { opacity: 0.6; transform: scale(1.05); }
+}
+
+@keyframes subtle-pulse-soft {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.08); }
+}
+
+@keyframes gentle-float {
+  0% { transform: translate(0, 0); }
+  33% { transform: translate(20px, -30px); }
+  66% { transform: translate(-15px, -20px); }
+  100% { transform: translate(0, 0); }
+}
+
+@keyframes gentle-jitter {
+  0%, 100% { transform: translate(0, 0); }
+  25% { transform: translate(1px, -1px); }
+  50% { transform: translate(-1px, 1px); }
+  75% { transform: translate(0.5px, 0.5px); }
+}
+
+@keyframes gentle-flicker {
+  0%, 100% { opacity: 0.5; }
+  25% { opacity: 0.3; }
+  50% { opacity: 0.6; }
+  75% { opacity: 0.4; }
+}
+
+@keyframes gentle-fade {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 0.6; }
 }
 
 @keyframes phaseGlow {

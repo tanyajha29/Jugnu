@@ -9,25 +9,24 @@ export default function GreetingCard() {
     : "neutral";
 
   return (
-    <GlassCard
-      gradientBorder
-      variant="elevated"
-      className={`shadow-xl ${theme.glow}`}
-    >
-      <h2 className="text-[32px] md:text-[34px] font-semibold text-white mb-2">
-        Good {dashboard.timeOfDay}, {dashboard.userName} 🌙
-      </h2>
+    <GlassCard variant="elevated" className="flex flex-col gap-16 p-32">
+      <div className="flex flex-col gap-8">
+        <h1 className="text-h1 text-white">
+          Good {dashboard.timeOfDay}, {dashboard.userName}
+        </h1>
+        <p className="text-lg text-white-80">
+          You seem <span className="font-semibold text-white" style={{ color: theme.accent }}>{phaseLabel}</span> today.
+        </p>
+      </div>
 
-      <p className="text-white/80">
-        You seem {phaseLabel} today.
-        <br />
-        {theme.messageTone}
-      </p>
-
-      <p className="mt-4 text-sm text-white/70">
-        {dashboard?.dailyMessage?.text ||
-          "Daily message placeholder: Your calm companion is here."}
-      </p>
+      <div className="flex flex-col gap-12 border-t border-white/10 pt-16">
+        <p className="text-body text-white-80 italic">
+          "{dashboard?.dailyMessage?.text || "Take a moment to breathe and notice your surroundings."}"
+        </p>
+        <span className="text-caption text-white-80">
+          {theme.messageTone}
+        </span>
+      </div>
     </GlassCard>
   );
 }

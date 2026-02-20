@@ -1,21 +1,29 @@
 import PhaseBackground from "./PhaseBackground";
-import forestBg from "../../assets/forest-night-background.gif";
 
-// src/components/layout/AuthBackground.jsx
 export default function AuthBackground({ children }) {
   return (
     <PhaseBackground
-      backgroundImage={forestBg}
-      backgroundClassName="phase-cinematic phase-cinematic--blur"
       fireflyCount={4}
-      accentOverride="#FCD34D"
-      glowOverride="rgba(252, 211, 77, 0.25)"
-      particleSpeedOverride="34s"
-      showBlobs={false}
+      showNoise={true}
     >
-      <div className="auth-spotlight" aria-hidden="true" />
-      <div className="relative mx-auto flex w-full max-w-5xl items-center justify-center px-4">
-        {children}
+      <div className="flex min-h-[70vh] items-center justify-center py-64">
+        {/* Subtle spotlight behind card */}
+        <div
+          className="absolute pointer-events-none"
+          style={{
+            width: "600px",
+            height: "600px",
+            background: "radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%)",
+            filter: "blur(40px)",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+          }}
+          aria-hidden="true"
+        />
+        <div className="relative z-10 w-full max-w-md">
+          {children}
+        </div>
       </div>
     </PhaseBackground>
   );

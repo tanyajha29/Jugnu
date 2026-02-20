@@ -23,10 +23,10 @@ export default function Navbar() {
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50">
-      <div className="mx-auto max-w-6xl px-6">
+      <div className="mx-auto max-w-7xl px-6">
         <div
-          className={`mt-4 flex items-center justify-between rounded-2xl border border-white/10 bg-white/10 px-5 py-3 backdrop-blur-xl transition-all duration-300 ${
-            isScrolled ? "shadow-[0_12px_40px_rgba(15,23,42,0.35)]" : ""
+          className={`mt-4 flex items-center justify-between rounded-2xl border border-white/10 bg-white/5 px-6 py-4 backdrop-blur-xl transition-all duration-300 ${
+            isScrolled ? "border-white/15 bg-white/8 shadow-[0_12px_40px_rgba(15,23,42,0.35)]" : ""
           }`}
         >
           <Link
