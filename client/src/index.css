@@ -147,3 +147,14 @@ input:focus {
   50% { transform: translate3d(-1%, 1%, 0); }
   100% { transform: translate3d(0, 0, 0); }
 }
+
+.logo-pulse {
+  box-shadow: 0 0 22px var(--phase-glow, rgba(255,255,255,0.3));
+  animation: logoPulse 4s ease-in-out infinite;
+}
+
+@keyframes logoPulse {
+  0% { transform: scale(1); box-shadow: 0 0 18px var(--phase-glow, rgba(255,255,255,0.3)); }
+  50% { transform: scale(1.06); box-shadow: 0 0 32px var(--phase-glow, rgba(255,255,255,0.5)); }
+  100% { transform: scale(1); box-shadow: 0 0 18px var(--phase-glow, rgba(255,255,255,0.3)); }
+}
