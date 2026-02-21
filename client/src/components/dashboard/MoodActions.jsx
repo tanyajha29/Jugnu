@@ -22,6 +22,7 @@ export default function MoodActions() {
       await api.post("/user/phase", { phase: phaseId });
       await refetchDashboard();
       window.dispatchEvent(new Event("jugnu:particle-pulse"));
+      window.dispatchEvent(new Event("jugnu:phase-change"));
     } catch (err) {
       console.error("Failed to change phase:", err);
     } finally {

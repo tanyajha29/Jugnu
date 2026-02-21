@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useRef } from "react";
 import PhaseBackground from "../layout/PhaseBackground";
 import GlassCard from "../layout/GlassCard";
 import { fetchReflectionPrompt, postReflection } from "../../api/dashboard.api";
@@ -11,6 +11,7 @@ export default function ReflectionPage() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
+  const typingTimer = useRef(null);
 
   useEffect(() => {
     async function getPrompt() {
@@ -26,6 +27,12 @@ export default function ReflectionPage() {
     getPrompt();
   }, [dashboard]);
 
+  useEffect(() => {
+    return () => {
+      if (typingTimer.current) clearTimeout(typingTimer.current);
+    };
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!reflection.trim()) return;
@@ -37,6 +44,7 @@ export default function ReflectionPage() {
       await postReflection({ content: reflection });
       setSuccess(true);
       setReflection("");
+      window.dispatchEvent(new Event("jugnu:reflection-save"));
     } catch (err) {
       setError("Failed to save reflection. Please try again.");
     } finally {
@@ -62,7 +70,14 @@ export default function ReflectionPage() {
               className="min-h-64 w-full resize-none rounded-xl border border-white/10 bg-white/5 p-6 text-body text-white placeholder-white/40 transition-all duration-300 focus:ring-2 focus:ring-indigo-400/40 focus:border-white/15 focus:bg-white/7 focus:outline-none sm:min-h-80 sm:p-8"
               placeholder="Begin writing..."
               value={reflection}
-              onChange={(e) => setReflection(e.target.value)}
+              onChange={(e) => {
+                setReflection(e.target.value);
+                window.dispatchEvent(new Event("jugnu:reflection-typing"));
+                if (typingTimer.current) clearTimeout(typingTimer.current);
+                typingTimer.current = setTimeout(() => {
+                  typingTimer.current = null;
+                }, 300);
+              }}
               disabled={loading}
               required
             />

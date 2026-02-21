@@ -8,12 +8,14 @@ import Landing from "./components/pages/Landing";
 import ReflectionPage from "./components/pages/ReflectionPage";
 import InsightsPage from "./components/pages/InsightsPage";
 import Navbar from "./components/layout/Navbar";
+import JugnuEntity from "./components/layout/JugnuEntity";
 
 export default function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
         <Navbar />
+        <JugnuEntity />
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/login" element={<LoginPage />} />
