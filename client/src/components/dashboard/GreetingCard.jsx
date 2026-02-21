@@ -9,27 +9,24 @@ export default function GreetingCard() {
     : "neutral";
 
   return (
-    <GlassCard variant="elevated" className="flex flex-col gap-4 p-8 sm:gap-6 sm:p-10">
-      {/* Greeting & Status */}
-      <div className="flex flex-col gap-2 sm:gap-3">
-        <h1 className="text-5xl font-semibold tracking-tight text-white">
+    <GlassCard variant="elevated" className="flex flex-col gap-6 p-6 sm:p-8">
+      <div className="space-y-3">
+        <h1 className="text-5xl font-bold tracking-tight text-white sm:text-6xl">
           Good {dashboard.timeOfDay}, <span className="text-white">{dashboard.userName}</span>
         </h1>
-        <p className="body text-white/70">
+        <p className="text-white/70">
           You seem{" "}
-          <span className="font-medium text-white" style={{ color: theme.accent }}>
+          <span className="font-medium" style={{ color: theme.accent }}>
             {phaseLabel}
           </span>{" "}
           today.
         </p>
       </div>
 
-      {/* Daily Message */}
-      <div className="flex flex-col gap-3 border-t border-white/10 pt-4 sm:gap-4 sm:pt-6">
-        <p className="body italic text-white/60">
+      <div className="border-t border-white/10 pt-4">
+        <p className="text-white/60 italic">
           "{dashboard?.dailyMessage?.text || "Take a moment to breathe and notice your surroundings."}"
         </p>
-        <span className="caption text-white-50">{theme.messageTone}</span>
       </div>
     </GlassCard>
   );

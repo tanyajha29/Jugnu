@@ -12,8 +12,6 @@ export default function AddMoodCard() {
     try {
       await api.post("/mood", { mood: moodValue });
       await refetchDashboard();
-      window.dispatchEvent(new Event("jugnu:mood-log"));
-      window.dispatchEvent(new Event("jugnu:particle-pulse"));
     } catch (err) {
       console.error("Failed to log mood:", err);
     } finally {

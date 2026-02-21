@@ -8,7 +8,7 @@ export default function GlassCard({
   variant = "default",
   hover = true,
 }) {
-  const baseStyle = "backdrop-blur-2xl border rounded-[24px] transition-all duration-300 ease-out relative overflow-hidden shadow-[0_10px_50px_rgba(0,0,0,0.6)] bg-white/6 border-white/10";
+  const baseStyle = "rounded-[24px] border border-white/10 bg-white/6 backdrop-blur-md shadow-[0_8px_24px_rgba(0,0,0,0.35)] transition-all duration-300 ease-out";
 
   const variantStyles = {
     default: "",
@@ -17,7 +17,7 @@ export default function GlassCard({
   };
 
   const hoverStyle = hover
-    ? "hover:-translate-y-[3px] hover:shadow-[0_20px_60px_rgba(0,0,0,0.7)] cursor-pointer"
+    ? "hover:-translate-y-[2px] hover:shadow-[0_12px_28px_rgba(0,0,0,0.45)]"
     : "";
 
   return (

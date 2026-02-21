@@ -4,10 +4,8 @@ import GreetingCard from "../dashboard/GreetingCard";
 import WeeklyMoodChart from "../dashboard/WeeklyChart";
 import WeeklyInsightCard from "../dashboard/WeeklyInsightCard";
 import ReflectionPromptCard from "../dashboard/ReflectionPromptCard";
-import AddMoodCard from "../dashboard/AddMoodCard";
 import PhaseBackground from "../layout/PhaseBackground";
 import MoodActions from "../dashboard/MoodActions";
-import DailyMessage from "../dashboard/DailyMessage";
 
 export default function Dashboard() {
   const { dashboard } = useContext(EmotionContext);
@@ -57,35 +55,27 @@ export default function Dashboard() {
     );
 
   return (
-    <PhaseBackground fireflyCount={4}>
-      <div className="mx-auto flex max-w-7xl flex-col gap-8 px-8 pt-32 sm:gap-12 pb-16">
-        {/* Section 1: Greeting + Daily Message (2/3) + Reflection Prompt (1/3) */}
+    <PhaseBackground>
+      <div className="mx-auto flex max-w-7xl flex-col gap-12 px-8 pb-16 pt-32">
+        {/* Section 1: Greeting (2/3) + Reflection (1/3) */}
         <div className="grid grid-cols-1 gap-8 sm:gap-12 lg:grid-cols-3">
-          <div className="lg:col-span-2 space-y-8 sm:space-y-10">
+          <div className="lg:col-span-2">
             <GreetingCard />
-            <DailyMessage />
           </div>
           <div className="lg:col-span-1">
             <ReflectionPromptCard />
           </div>
         </div>
 
-        {/* Section 2: Weekly Mood Trend Chart (Full Width) */}
-        <div className="mt-4">
+        {/* Section 2: Weekly Mood Trend (Full Width) */}
+        <div>
           <WeeklyMoodChart />
         </div>
 
-        {/* Section 3: Weekly Insights (Split) + Mood Actions */}
+        {/* Section 3: Weekly Insights + Adjust Your State */}
         <div className="grid grid-cols-1 gap-8 sm:gap-12 lg:grid-cols-2">
           <WeeklyInsightCard />
           <MoodActions />
-        </div>
-
-        {/* Section 4: Quick Mood Check (Compact) */}
-        <div className="flex w-full justify-end">
-          <div className="w-full max-w-md">
-            <AddMoodCard />
-          </div>
         </div>
       </div>
     </PhaseBackground>

@@ -21,8 +21,6 @@ export default function MoodActions() {
     try {
       await api.post("/user/phase", { phase: phaseId });
       await refetchDashboard();
-      window.dispatchEvent(new Event("jugnu:particle-pulse"));
-      window.dispatchEvent(new Event("jugnu:phase-change"));
     } catch (err) {
       console.error("Failed to change phase:", err);
     } finally {
@@ -31,41 +29,32 @@ export default function MoodActions() {
   };
 
   return (
-    <GlassCard variant="default" className="flex flex-col gap-4 p-8 sm:gap-6 sm:p-10">
-      {/* Header */}
-      <div className="flex flex-col gap-2 sm:gap-3">
-        <h3 className="h3 text-white-90">Adjust Your State</h3>
-        <p className="body-sm text-white-60">How are you feeling? Your environment will shift to match.</p>
+    <GlassCard className="flex flex-col gap-4 p-6">
+      <div className="flex flex-col gap-2">
+        <h3 className="text-2xl font-semibold text-white">Adjust Your State</h3>
+        <p className="text-white/70">How are you feeling right now?</p>
       </div>
 
-      {/* Phase Grid */}
-      <div className="grid auto-rows-max grid-cols-2 gap-4 sm:gap-6 md:grid-cols-3">
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
         {PHASES.map((p) => (
           <button
             key={p.id}
             disabled={loading}
             onClick={() => changePhase(p.id)}
-            className="group relative flex flex-col items-center gap-2 rounded-[24px] border border-white/8 bg-white/4 p-4 transition-all duration-300 hover:border-white/15 hover:bg-white/7 disabled:opacity-50 sm:gap-3 sm:p-6"
+            className="flex items-center gap-2 rounded-[24px] border border-white/10 bg-white/6 px-4 py-3 text-sm text-white/80 transition-all duration-300 hover:bg-white/10 disabled:opacity-50"
           >
             <span
-              className="h-10 w-10 rounded-full transition-transform duration-300 group-hover:scale-105 sm:h-12 sm:w-12"
-              style={{
-                backgroundColor: p.color,
-                boxShadow: `0 0 10px ${p.color}30`,
-              }}
+              className="h-2.5 w-2.5 rounded-full"
+              style={{ backgroundColor: p.color }}
               aria-hidden="true"
             />
-            <span className="text-body-sm font-medium text-white-80 text-center">{p.label}</span>
+            {p.label}
           </button>
         ))}
       </div>
 
-      {/* Loading State */}
       {loading && (
-        <div className="flex items-center justify-center gap-2 text-body-sm text-white-60">
-          <div className="h-3 w-3 animate-spin rounded-full border-2 border-white/20 border-t-white/60" />
-          Shifting environment...
-        </div>
+        <div className="text-sm text-white/60">Updating state...</div>
       )}
     </GlassCard>
   );

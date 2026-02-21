@@ -3,7 +3,6 @@ import PhaseBackground from "./PhaseBackground";
 export default function AuthBackground({ children }) {
   return (
     <PhaseBackground
-      fireflyCount={3}
       showNoise={true}
       showAmbient={true}
       className="pt-32"

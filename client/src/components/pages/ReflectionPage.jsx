@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext, useRef } from "react";
+import { useState, useEffect, useContext } from "react";
 import PhaseBackground from "../layout/PhaseBackground";
 import GlassCard from "../layout/GlassCard";
 import { fetchReflectionPrompt, postReflection } from "../../api/dashboard.api";
@@ -11,7 +11,6 @@ export default function ReflectionPage() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
-  const typingTimer = useRef(null);
 
   useEffect(() => {
     async function getPrompt() {
@@ -27,12 +26,6 @@ export default function ReflectionPage() {
     getPrompt();
   }, [dashboard]);
 
-  useEffect(() => {
-    return () => {
-      if (typingTimer.current) clearTimeout(typingTimer.current);
-    };
-  }, []);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!reflection.trim()) return;
@@ -44,7 +37,6 @@ export default function ReflectionPage() {
       await postReflection({ content: reflection });
       setSuccess(true);
       setReflection("");
-      window.dispatchEvent(new Event("jugnu:reflection-save"));
     } catch (err) {
       setError("Failed to save reflection. Please try again.");
     } finally {
@@ -53,36 +45,24 @@ export default function ReflectionPage() {
   };
 
   return (
-    <PhaseBackground fireflyCount={3} fireflyAnimation="floating" showAmbient={true} className="brightness-95">
-      <div className="mx-auto flex max-w-2xl flex-col items-center justify-center px-8 py-24 min-h-screen sm:py-32">
-        <GlassCard variant="elevated" className="w-full max-w-xl space-y-6 p-10 sm:space-y-8 sm:p-14">
-          {/* Header - Calm & Focused */}
+    <PhaseBackground>
+      <div className="mx-auto flex min-h-screen max-w-2xl flex-col items-center justify-center px-8 py-24 sm:py-32">
+        <GlassCard variant="elevated" className="w-full max-w-xl space-y-6 p-10 sm:space-y-8 sm:p-12">
           <div className="space-y-3 text-center">
-            <span className="caption text-white-50">Reflective Space</span>
-            <h1 className="h2 text-white-90">{prompt}</h1>
-            <p className="body-sm text-white-60">Take your time. Your words matter.</p>
+            <h1 className="text-3xl font-semibold text-white sm:text-4xl">{prompt}</h1>
+            <p className="text-white/70">Take your time. Your words matter.</p>
           </div>
 
-          {/* Reflection Form */}
           <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Textarea - Minimal, spacious design */}
             <textarea
               className="min-h-64 w-full resize-none rounded-xl border border-white/10 bg-white/5 p-6 text-body text-white placeholder-white/40 transition-all duration-300 focus:ring-2 focus:ring-indigo-400/40 focus:border-white/15 focus:bg-white/7 focus:outline-none sm:min-h-80 sm:p-8"
               placeholder="Begin writing..."
               value={reflection}
-              onChange={(e) => {
-                setReflection(e.target.value);
-                window.dispatchEvent(new Event("jugnu:reflection-typing"));
-                if (typingTimer.current) clearTimeout(typingTimer.current);
-                typingTimer.current = setTimeout(() => {
-                  typingTimer.current = null;
-                }, 300);
-              }}
+              onChange={(e) => setReflection(e.target.value)}
               disabled={loading}
               required
             />
 
-            {/* Submit Button */}
             <button
               type="submit"
               disabled={loading || !reflection.trim()}
@@ -92,14 +72,12 @@ export default function ReflectionPage() {
             </button>
           </form>
 
-          {/* Success Message */}
           {success && (
-            <div className="animate-scale-in rounded-[24px] border border-emerald-500/20 bg-emerald-500/8 px-6 py-4 text-center">
+            <div className="animate-fade-in rounded-[24px] border border-emerald-500/20 bg-emerald-500/8 px-6 py-4 text-center">
               <p className="body-sm text-emerald-300">Your reflection has been saved.</p>
             </div>
           )}
 
-          {/* Error Message */}
           {error && (
             <div className="rounded-[24px] border border-red-500/20 bg-red-500/8 px-6 py-4 text-center">
               <p className="body-sm text-red-300">{error}</p>

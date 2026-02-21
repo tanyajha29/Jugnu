@@ -2,6 +2,9 @@ export default {
   content: ["./index.html", "./src/**/*.{js,jsx}"],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ["Space Grotesk", "ui-sans-serif", "system-ui"],
+      },
       spacing: {
         4: "4px",
         8: "8px",
@@ -22,12 +25,12 @@ export default {
         "3xl": "24px",
       },
       fontSize: {
-        h1: ["32px", { lineHeight: "1.2", fontWeight: "600" }],
-        "h1-landing": ["48px", { lineHeight: "1.1", fontWeight: "600", letterSpacing: "-0.02em" }],
+        h1: ["36px", { lineHeight: "1.2", fontWeight: "700", letterSpacing: "-0.02em" }],
+        "h1-landing": ["48px", { lineHeight: "1.1", fontWeight: "700", letterSpacing: "-0.02em" }],
         h2: ["24px", { lineHeight: "1.3", fontWeight: "600" }],
-        h3: ["18px", { lineHeight: "1.4", fontWeight: "500" }],
-        body: ["15px", { lineHeight: "1.6" }],
-        "body-sm": ["13px", { lineHeight: "1.5" }],
+        h3: ["18px", { lineHeight: "1.4", fontWeight: "600" }],
+        body: ["16px", { lineHeight: "1.6" }],
+        "body-sm": ["14px", { lineHeight: "1.5" }],
         caption: ["12px", { lineHeight: "1.5", letterSpacing: "0.2em", textTransform: "uppercase" }],
       },
       colors: {
