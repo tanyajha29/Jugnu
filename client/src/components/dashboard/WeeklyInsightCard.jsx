@@ -9,11 +9,11 @@ export default function WeeklyInsightCard() {
     "A gentle pattern will appear here once we've gathered enough reflections and mood logs.";
 
   return (
-    <GlassCard variant="elevated" className="flex flex-col gap-4 p-8 sm:gap-6 sm:p-10">
+    <GlassCard variant="elevated" className="flex flex-col gap-4 border-l-2 border-white/10 pl-6 p-8 sm:gap-6 sm:p-10">
       {/* Header */}
       <div className="flex flex-col gap-2 sm:gap-3">
         <span className="caption text-white-50">AI Analysis</span>
-        <h2 className="h2 text-white-90">Weekly Insights</h2>
+        <h2 className="text-2xl font-semibold text-white">Weekly Insights</h2>
       </div>
 
       {/* Content */}

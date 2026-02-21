@@ -25,8 +25,8 @@ export default function Navbar() {
     <nav className="fixed top-0 left-0 right-0 z-50">
       <div className="mx-auto w-full max-w-7xl px-8">
         <div
-          className={`mt-8 flex items-center justify-between rounded-[24px] border border-white/8 bg-white/4 px-8 py-4 backdrop-blur-md transition-all duration-300 ${
-            isScrolled ? "border-white/12 bg-white/6 shadow-[0_8px_32px_rgba(0,0,0,0.2)]" : ""
+          className={`mt-8 flex items-center justify-between rounded-[24px] border-b border-white/10 bg-black/30 px-8 py-4 backdrop-blur-xl transition-all duration-300 ${
+            isScrolled ? "bg-black/40 shadow-[0_8px_32px_rgba(0,0,0,0.35)]" : ""
           }`}
         >
           {/* Brand Logo */}
@@ -45,22 +45,22 @@ export default function Navbar() {
           </Link>
 
           {/* Navigation Links */}
-          <div className="hidden items-center gap-12 text-body-sm text-white-60 md:flex">
+          <div className="hidden items-center gap-12 text-body-sm text-white/60 md:flex">
             <Link
               to="/dashboard"
-              className="transition-color duration-300 hover:text-white-80"
+              className="transition-color duration-300 hover:text-white"
             >
               Dashboard
             </Link>
             <Link
               to="/reflection"
-              className="transition-color duration-300 hover:text-white-80"
+              className="transition-color duration-300 hover:text-white"
             >
               Reflection
             </Link>
             <Link
               to="/insights"
-              className="transition-color duration-300 hover:text-white-80"
+              className="transition-color duration-300 hover:text-white"
             >
               Insights
             </Link>
@@ -70,7 +70,7 @@ export default function Navbar() {
           <div className="flex items-center gap-4">
             {/* Phase Badge */}
             <div
-              className="hidden rounded-full border border-white/10 bg-white/6 px-4 py-1.5 text-caption text-white-60 transition-all duration-300 md:inline-block"
+              className="hidden rounded-full border border-white/10 bg-white/6 px-4 py-1.5 text-caption text-white/60 transition-all duration-300 md:inline-block"
               style={{
                 color: theme.accent,
               }}

@@ -1,7 +1,11 @@
 /* Background & Phase Animations */
 .phase-background {
   background-size: 200% 200%;
-  animation: gradientShift 50s ease-in-out infinite;
+  background:
+    radial-gradient(circle at 20% 30%, color-mix(in srgb, var(--phase-accent, #7aa2ff) 25%, transparent), transparent 40%),
+    radial-gradient(circle at 80% 70%, color-mix(in srgb, var(--phase-accent, #b48cff) 20%, transparent), transparent 40%),
+    linear-gradient(135deg, #0B1020 0%, #0F172A 50%, #111827 100%);
+  animation: gradientShift 40s ease-in-out infinite;
   --interaction: 0;
   --pulse: 0;
 }
@@ -43,14 +47,14 @@
 
 .firefly {
   position: absolute;
-  width: 4px;
-  height: 4px;
+  width: 3px;
+  height: 3px;
   border-radius: 9999px;
   background: var(--phase-accent, rgba(255, 255, 255, 0.4));
   opacity: calc(0.25 + (var(--interaction) * 0.15) + (var(--pulse) * 0.2));
-  box-shadow: 0 0 calc(10px + (var(--interaction) * 6px) + (var(--pulse) * 10px))
-    color-mix(in srgb, var(--phase-accent, #ffffff) 40%, transparent);
-  filter: blur(0.5px);
+  box-shadow: 0 0 calc(12px + (var(--interaction) * 6px) + (var(--pulse) * 8px))
+    color-mix(in srgb, var(--phase-accent, #ffffff) 35%, transparent);
+  filter: blur(1px);
   transition: opacity 300ms ease, box-shadow 300ms ease;
 }
 

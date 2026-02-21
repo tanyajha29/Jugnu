@@ -45,9 +45,9 @@ export default function ReflectionPage() {
   };
 
   return (
-    <PhaseBackground fireflyCount={2} fireflyAnimation="floating" showAmbient={true}>
-      <div className="mx-auto flex max-w-2xl flex-col items-center justify-center px-8 py-32 min-h-screen sm:py-40">
-        <GlassCard variant="elevated" className="w-full max-w-xl space-y-6 p-8 sm:space-y-8 sm:p-12">
+    <PhaseBackground fireflyCount={3} fireflyAnimation="floating" showAmbient={true} className="brightness-95">
+      <div className="mx-auto flex max-w-2xl flex-col items-center justify-center px-8 py-24 min-h-screen sm:py-32">
+        <GlassCard variant="elevated" className="w-full max-w-xl space-y-6 p-10 sm:space-y-8 sm:p-14">
           {/* Header - Calm & Focused */}
           <div className="space-y-3 text-center">
             <span className="caption text-white-50">Reflective Space</span>
@@ -59,7 +59,7 @@ export default function ReflectionPage() {
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Textarea - Minimal, spacious design */}
             <textarea
-              className="min-h-64 w-full resize-none rounded-[24px] border border-white/8 bg-white/4 p-6 text-body text-white placeholder-white/30 transition-all duration-300 focus:border-white/15 focus:bg-white/7 focus:outline-none sm:min-h-80 sm:p-8"
+              className="min-h-64 w-full resize-none rounded-xl border border-white/10 bg-white/5 p-6 text-body text-white placeholder-white/40 transition-all duration-300 focus:ring-2 focus:ring-indigo-400/40 focus:border-white/15 focus:bg-white/7 focus:outline-none sm:min-h-80 sm:p-8"
               placeholder="Begin writing..."
               value={reflection}
               onChange={(e) => setReflection(e.target.value)}

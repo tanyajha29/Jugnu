@@ -48,7 +48,7 @@ export default function Landing() {
           <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
             <Link
               to="/register"
-              className="rounded-[24px] border border-white/12 bg-white/10 px-8 py-4 text-body font-medium text-white transition-all duration-300 hover:border-white/20 hover:bg-white/14 active:scale-95"
+              className="rounded-[24px] border border-white/12 bg-white/10 px-8 py-4 text-body font-medium text-white shadow-[0_12px_40px_rgba(0,0,0,0.5)] transition-all duration-300 hover:border-white/20 hover:bg-white/14 active:scale-95"
             >
               Get Started
             </Link>

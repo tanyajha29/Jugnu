@@ -17,11 +17,12 @@ export default function WeeklyMoodChart() {
   const chartData = dashboard?.weeklyTrend?.length ? dashboard.weeklyTrend : fallbackData;
 
   return (
-    <GlassCard className="flex flex-col gap-4 p-8 sm:gap-6 sm:p-10">
+    <GlassCard className="relative flex flex-col gap-4 px-8 py-10 sm:gap-6 sm:px-10">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-white/5 to-transparent" />
       {/* Header */}
       <div className="flex flex-col gap-2 sm:gap-3">
-        <h2 className="h2 text-white-90">Weekly Mood Trend</h2>
-        <p className="body-sm text-white-60">A gentle view of your emotional rhythm this week.</p>
+        <h2 className="text-2xl font-semibold text-white">Weekly Mood Trend</h2>
+        <p className="body-sm text-white/70">A gentle view of your emotional rhythm this week.</p>
       </div>
 
       {/* Chart */}

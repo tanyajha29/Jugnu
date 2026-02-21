@@ -25,7 +25,7 @@ export default function InsightsPage() {
 
   return (
     <PhaseBackground fireflyCount={2} showNoise={true}>
-      <div className="mx-auto flex max-w-7xl flex-col gap-8 px-8 py-32 sm:gap-12 sm:py-40">
+      <div className="mx-auto flex max-w-7xl flex-col gap-12 px-8 py-32 sm:gap-12 sm:py-40">
         {/* Page Header */}
         <div className="flex flex-col gap-2 sm:gap-3">
           <span className="caption text-white-50">Growth & Patterns</span>
@@ -35,7 +35,7 @@ export default function InsightsPage() {
 
         {/* AI Weekly Summary */}
         <section className="mt-4">
-          <GlassCard variant="elevated" className="flex flex-col gap-4 p-8 sm:gap-6 sm:p-10">
+          <GlassCard variant="elevated" className="flex flex-col gap-4 border-l-2 border-white/10 p-8 sm:gap-6 sm:p-10">
             <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center sm:gap-6">
               <h2 className="h2 text-white-90">Weekly AI Summary</h2>
               <span className="rounded-full border border-white/10 bg-white/6 px-4 py-2 text-caption text-white-60">
@@ -50,7 +50,7 @@ export default function InsightsPage() {
         </section>
 
         {/* Mood Analytics Grid */}
-        <section className="mt-4 grid grid-cols-1 gap-6 sm:gap-8 lg:grid-cols-2">
+        <section className="mt-4 grid grid-cols-1 gap-8 sm:gap-10 lg:grid-cols-2">
           {/* Mood Distribution */}
           <GlassCard className="flex flex-col gap-4 p-8 sm:gap-6 sm:p-10">
             <h3 className="h3 text-white-90">Mood Distribution</h3>
@@ -100,7 +100,7 @@ export default function InsightsPage() {
         </section>
 
         {/* Recent Reflections */}
-        <section className="mt-4 flex flex-col gap-4 sm:gap-6">
+        <section className="mt-4 flex flex-col gap-6 sm:gap-8 border-t border-white/10 pt-10">
           <h2 className="h2 text-white-90">Recent Reflections</h2>
 
           {loading ? (
