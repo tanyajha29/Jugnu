@@ -3,25 +3,17 @@ import PhaseBackground from "./PhaseBackground";
 export default function AuthBackground({ children }) {
   return (
     <PhaseBackground
-      fireflyCount={4}
+      fireflyCount={3}
       showNoise={true}
+      showAmbient={true}
+      className="pt-32"
     >
-      <div className="flex min-h-[70vh] items-center justify-center py-64">
-        {/* Subtle spotlight behind card */}
-        <div
-          className="absolute pointer-events-none"
-          style={{
-            width: "600px",
-            height: "600px",
-            background: "radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%)",
-            filter: "blur(40px)",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-          }}
-          aria-hidden="true"
-        />
-        <div className="relative z-10 w-full max-w-md">
+      <div className="flex min-h-screen items-center justify-center">
+        {/* Premium spotlight effect */}
+        <div className="auth-spotlight" aria-hidden="true" />
+
+        {/* Centered card container */}
+        <div className="relative z-10 w-full max-w-sm px-8">
           {children}
         </div>
       </div>

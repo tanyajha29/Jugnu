@@ -9,17 +9,20 @@ export default function WeeklyInsightCard() {
     "A gentle pattern will appear here once we've gathered enough reflections and mood logs.";
 
   return (
-    <GlassCard variant="elevated" className="flex flex-col gap-16 p-32">
-      <div className="flex flex-col gap-8">
-        <span className="text-caption text-white-80">AI Analysis</span>
-        <h2 className="text-h2 text-white">Weekly Insights</h2>
+    <GlassCard variant="elevated" className="flex flex-col gap-4 p-8 sm:gap-6 sm:p-10">
+      {/* Header */}
+      <div className="flex flex-col gap-2 sm:gap-3">
+        <span className="caption text-white-50">AI Analysis</span>
+        <h2 className="h2 text-white-90">Weekly Insights</h2>
       </div>
-      <div className="flex flex-col gap-16">
-        <p className="text-body leading-relaxed text-white-80">
-          {insightText}
-        </p>
-        <div className="h-1 w-full overflow-hidden rounded-full bg-white/5">
-          <div className="h-full w-1/3 bg-white/20" />
+
+      {/* Content */}
+      <div className="flex flex-col gap-4 sm:gap-6">
+        <p className="body leading-relaxed text-white-60">{insightText}</p>
+
+        {/* Progress Indicator */}
+        <div className="h-1 w-full overflow-hidden rounded-full bg-white/6">
+          <div className="h-full w-1/3 bg-white/15 transition-all duration-500" />
         </div>
       </div>
     </GlassCard>

@@ -2,127 +2,106 @@
 @tailwind components;
 @tailwind utilities;
 
+@import './styles/animations.css';
+
 html, body {
   margin: 0;
   padding: 0;
 }
 
 body {
-  background: #0f172a;
+  background: #0a0e1a;
   color: white;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Typography */
 h1, .h1-landing {
-  @apply text-h1-landing font-semibold tracking-tight;
+  @apply text-h1-landing font-semibold tracking-tight text-white-95;
 }
 
 .h1-app {
-  @apply text-h1 font-semibold;
+  @apply text-h1 font-semibold text-white-90;
 }
 
 h2 {
-  @apply text-h2 font-semibold;
+  @apply text-h2 font-semibold text-white-90;
+}
+
+h3 {
+  @apply text-h3 font-medium text-white-80;
 }
 
 p, .body-text {
-  @apply text-body text-white-80;
+  @apply text-body text-white-60;
+}
+
+.body-sm {
+  @apply text-body-sm text-white-60;
 }
 
 .caption {
-  @apply text-caption text-white-80;
+  @apply text-caption text-white-40;
 }
 
+/* Form Elements */
 input, textarea {
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   color: white;
+  border-radius: 24px;
   transition: all 300ms ease;
+  font-size: 15px;
+  line-height: 1.6;
 }
 
 input::placeholder, textarea::placeholder {
-  color: rgba(255,255,255,0.4);
+  color: rgba(255, 255, 255, 0.3);
 }
 
 input:focus, textarea:focus {
   outline: none;
-  background: rgba(255,255,255,0.1);
-  border-color: rgba(255,255,255,0.3);
-  box-shadow: 0 0 0 3px rgba(255,255,255,0.08);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.04);
 }
 
+/* Buttons */
 button {
   transition: all 300ms ease;
+  cursor: pointer;
 }
 
 button:active:not(:disabled) {
   transform: scale(0.98);
 }
 
-.phase-background {
-  background-size: 200% 200%;
-  animation:
-    phaseGlow var(--particle-speed, 20s) ease-in-out infinite,
-    gradientShift 40s ease infinite;
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
-.phase-mesh {
-  position: absolute;
-  inset: -20%;
-  background-image:
-    radial-gradient(600px 420px at 10% 15%, var(--phase-glow, rgba(255,255,255,0.2)), transparent 60%),
-    radial-gradient(520px 360px at 85% 20%, color-mix(in srgb, var(--phase-accent, #ffffff) 30%, transparent), transparent 65%),
-    radial-gradient(480px 360px at 30% 85%, rgba(255,255,255,0.1), transparent 60%),
-    radial-gradient(520px 380px at 80% 80%, rgba(255,255,255,0.08), transparent 65%);
-  opacity: 0.6;
-  filter: blur(0.5px);
-  animation: meshShift calc(var(--particle-speed, 20s) * 1.2) ease-in-out infinite;
-  pointer-events: none;
+/* Utility Classes */
+.transition-smooth {
+  transition: all 300ms ease;
 }
 
-.phase-cinematic {
-  position: absolute;
-  inset: -5%;
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  opacity: 0.6;
-  filter: saturate(0.8) brightness(0.7);
-  transform: scale(1.05);
-  transition: opacity 600ms ease, filter 600ms ease;
-  pointer-events: none;
+.transition-smooth-350 {
+  transition: all 350ms ease;
 }
 
-.phase-cinematic--blur {
-  filter: saturate(0.65) brightness(0.55) blur(10px);
-  opacity: 0.75;
+.transition-color {
+  transition: color 300ms ease, background-color 300ms ease, border-color 300ms ease;
 }
 
-.phase-overlay-image {
-  position: absolute;
-  inset: 0;
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  opacity: 0.3;
-  mix-blend-mode: screen;
-  pointer-events: none;
+.backdrop-blur-glass {
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 }
 
-.phase-overlay-soft {
-  opacity: 0.25;
-  filter: blur(1px);
-}
-
-.phase-overlay-hands {
-  background-position: bottom right;
-  background-size: min(720px, 70vw);
-  opacity: 0.4;
-  mix-blend-mode: screen;
-}
-
+/* Auth Spotlight - Subtle accent for auth pages */
 .auth-spotlight {
   position: absolute;
   top: 50%;
@@ -130,190 +109,8 @@ button:active:not(:disabled) {
   width: min(520px, 80vw);
   height: min(520px, 80vw);
   transform: translate(-50%, -55%);
-  background: radial-gradient(circle, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.04) 45%, transparent 70%);
-  filter: blur(8px);
-  opacity: 0.6;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.02) 45%, transparent 70%);
+  filter: blur(12px);
+  opacity: 0.4;
   pointer-events: none;
-}
-
-.phase-noise {
-  position: absolute;
-  inset: 0;
-  background-image:
-    radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px),
-    radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px);
-  background-size: 28px 28px, 36px 36px;
-  background-position: 0 0, 10px 14px;
-  mix-blend-mode: overlay;
-  opacity: 0.18;
-  animation: noiseShift 18s linear infinite;
-  pointer-events: none;
-}
-
-.phase-blobs {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-
-.phase-blob {
-  position: absolute;
-  width: 360px;
-  height: 360px;
-  border-radius: 9999px;
-  background: radial-gradient(circle, rgba(255,255,255,0.18), transparent 60%);
-  filter: blur(20px);
-  opacity: 0.6;
-  animation: blobFloat var(--particle-speed, 20s) ease-in-out infinite;
-}
-
-.blob-1 { top: -8%; left: 6%; animation-delay: -4s; }
-.blob-2 { top: 18%; right: 8%; width: 420px; height: 420px; animation-delay: -8s; }
-.blob-3 { bottom: -12%; left: 30%; width: 500px; height: 500px; animation-delay: -12s; }
-
-.fireflies {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
-}
-
-.firefly {
-  position: absolute;
-  width: 5px;
-  height: 5px;
-  border-radius: 9999px;
-  background: var(--phase-accent, rgba(255, 255, 255, 0.5));
-  opacity: 0.5;
-  box-shadow: 0 0 12px var(--phase-accent, rgba(255, 255, 255, 0.2));
-  filter: blur(0.5px);
-}
-
-.firefly--drift {
-  animation: drift var(--particle-speed, 40s) ease-in-out infinite,
-    subtle-pulse 4s ease-in-out infinite;
-}
-
-.firefly--pulse {
-  animation: drift 45s ease-in-out infinite,
-    subtle-pulse-soft 5s ease-in-out infinite;
-}
-
-.firefly--floating {
-  animation: gentle-float 50s ease-in-out infinite,
-    subtle-pulse 5s ease-in-out infinite;
-}
-
-.firefly--jitter {
-  animation: gentle-jitter 8s ease-in-out infinite,
-    drift 45s ease-in-out infinite;
-}
-
-.firefly--flicker {
-  animation: gentle-flicker 6s ease-in-out infinite,
-    drift 48s ease-in-out infinite;
-}
-
-.firefly--fade-in {
-  animation: gentle-fade 7s ease-in-out infinite,
-    drift 50s ease-in-out infinite;
-}
-
-.firefly:nth-child(1) { top: 20%; left: 10%; animation-delay: 0s; }
-.firefly:nth-child(2) { top: 35%; left: 75%; animation-delay: -4s; }
-.firefly:nth-child(3) { top: 60%; left: 20%; animation-delay: -7s; }
-.firefly:nth-child(4) { top: 80%; left: 85%; animation-delay: -10s; }
-.firefly:nth-child(5) { top: 15%; left: 55%; animation-delay: -12s; }
-.firefly:nth-child(6) { top: 45%; left: 40%; animation-delay: -6s; }
-.firefly:nth-child(7) { top: 70%; left: 55%; animation-delay: -9s; }
-.firefly:nth-child(8) { top: 25%; left: 85%; animation-delay: -3s; }
-.firefly:nth-child(9) { top: 50%; left: 5%; animation-delay: -11s; }
-
-@keyframes drift {
-  0% { transform: translateY(0) translateX(0); }
-  50% { transform: translateY(-20px) translateX(15px); }
-  100% { transform: translateY(0) translateX(0); }
-}
-
-@keyframes subtle-pulse {
-  0%, 100% { opacity: 0.4; transform: scale(0.95); }
-  50% { opacity: 0.6; transform: scale(1.05); }
-}
-
-@keyframes subtle-pulse-soft {
-  0%, 100% { opacity: 0.3; transform: scale(1); }
-  50% { opacity: 0.5; transform: scale(1.08); }
-}
-
-@keyframes gentle-float {
-  0% { transform: translate(0, 0); }
-  33% { transform: translate(20px, -30px); }
-  66% { transform: translate(-15px, -20px); }
-  100% { transform: translate(0, 0); }
-}
-
-@keyframes gentle-jitter {
-  0%, 100% { transform: translate(0, 0); }
-  25% { transform: translate(1px, -1px); }
-  50% { transform: translate(-1px, 1px); }
-  75% { transform: translate(0.5px, 0.5px); }
-}
-
-@keyframes gentle-flicker {
-  0%, 100% { opacity: 0.5; }
-  25% { opacity: 0.3; }
-  50% { opacity: 0.6; }
-  75% { opacity: 0.4; }
-}
-
-@keyframes gentle-fade {
-  0%, 100% { opacity: 0.2; }
-  50% { opacity: 0.6; }
-}
-
-@keyframes phaseGlow {
-  0% { filter: saturate(1) brightness(1); }
-  50% { filter: saturate(1.1) brightness(1.05); }
-  100% { filter: saturate(1) brightness(1); }
-}
-
-@keyframes gradientShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-@keyframes meshShift {
-  0% { transform: translate3d(0, 0, 0) scale(1); }
-  50% { transform: translate3d(-2%, 1%, 0) scale(1.02); }
-  100% { transform: translate3d(0, 0, 0) scale(1); }
-}
-
-@keyframes blobFloat {
-  0% { transform: translate3d(0, 0, 0) scale(1); }
-  50% { transform: translate3d(2%, -2%, 0) scale(1.05); }
-  100% { transform: translate3d(0, 0, 0) scale(1); }
-}
-
-@keyframes noiseShift {
-  0% { transform: translate3d(0, 0, 0); }
-  50% { transform: translate3d(-1%, 1%, 0); }
-  100% { transform: translate3d(0, 0, 0); }
-}
-
-.logo-pulse {
-  box-shadow: 0 0 22px var(--phase-glow, rgba(255,255,255,0.3));
-  animation: logoPulse 4s ease-in-out infinite;
-}
-
-@keyframes logoPulse {
-  0% { transform: scale(1); box-shadow: 0 0 18px var(--phase-glow, rgba(255,255,255,0.3)); }
-  50% { transform: scale(1.06); box-shadow: 0 0 32px var(--phase-glow, rgba(255,255,255,0.5)); }
-  100% { transform: scale(1); box-shadow: 0 0 18px var(--phase-glow, rgba(255,255,255,0.3)); }
-}
-
-@keyframes float {
-  0% { transform: translate3d(0, 0, 0); }
-  50% { transform: translate3d(0, -12px, 0); }
-  100% { transform: translate3d(0, 0, 0); }
 }

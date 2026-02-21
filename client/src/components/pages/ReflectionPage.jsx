@@ -45,48 +45,49 @@ export default function ReflectionPage() {
   };
 
   return (
-    <PhaseBackground
-      fireflyCount={3}
-      fireflyAnimation="floating"
-    >
-      <div className="mx-auto max-w-xl py-64">
-        <GlassCard variant="elevated" className="flex flex-col gap-32 p-40">
-          <div className="flex flex-col gap-8 text-center">
-            <span className="text-caption text-white-80">Reflective Space</span>
-            <h1 className="text-h2 text-white">{prompt}</h1>
-            <p className="text-white-80">
-              Take as much time as you need. There are no right or wrong words.
-            </p>
+    <PhaseBackground fireflyCount={2} fireflyAnimation="floating" showAmbient={true}>
+      <div className="mx-auto flex max-w-2xl flex-col items-center justify-center px-8 py-32 min-h-screen sm:py-40">
+        <GlassCard variant="elevated" className="w-full max-w-xl space-y-6 p-8 sm:space-y-8 sm:p-12">
+          {/* Header - Calm & Focused */}
+          <div className="space-y-3 text-center">
+            <span className="caption text-white-50">Reflective Space</span>
+            <h1 className="h2 text-white-90">{prompt}</h1>
+            <p className="body-sm text-white-60">Take your time. Your words matter.</p>
           </div>
 
-          <form onSubmit={handleSubmit} className="flex flex-col gap-24">
+          {/* Reflection Form */}
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Textarea - Minimal, spacious design */}
             <textarea
-              className="min-h-[240px] w-full resize-none rounded-2xl border border-white/10 bg-white/5 p-24 text-body text-white placeholder-white/30 outline-none transition-all focus:border-white/30 focus:bg-white/10"
-              placeholder="Begin typing your reflection..."
+              className="min-h-64 w-full resize-none rounded-[24px] border border-white/8 bg-white/4 p-6 text-body text-white placeholder-white/30 transition-all duration-300 focus:border-white/15 focus:bg-white/7 focus:outline-none sm:min-h-80 sm:p-8"
+              placeholder="Begin writing..."
               value={reflection}
               onChange={(e) => setReflection(e.target.value)}
               disabled={loading}
               required
             />
 
+            {/* Submit Button */}
             <button
               type="submit"
               disabled={loading || !reflection.trim()}
-              className="w-full rounded-xl bg-white/10 py-16 font-semibold text-white transition-all duration-300 hover:bg-white/20 disabled:opacity-50 active:scale-95"
+              className="w-full rounded-[24px] border border-white/10 bg-white/8 py-4 text-body font-medium text-white transition-all duration-300 hover:border-white/15 hover:bg-white/12 disabled:opacity-50 disabled:cursor-not-allowed active:scale-95"
             >
-              {loading ? "Saving reflection..." : "Save Reflection"}
+              {loading ? "Saving..." : "Save Reflection"}
             </button>
           </form>
 
+          {/* Success Message */}
           {success && (
-            <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/10 p-12 text-center text-sm text-emerald-200">
-              Your reflection has been saved safely.
+            <div className="animate-scale-in rounded-[24px] border border-emerald-500/20 bg-emerald-500/8 px-6 py-4 text-center">
+              <p className="body-sm text-emerald-300">Your reflection has been saved.</p>
             </div>
           )}
 
+          {/* Error Message */}
           {error && (
-            <div className="rounded-xl border border-red-500/20 bg-red-500/10 p-12 text-center text-sm text-red-200">
-              {error}
+            <div className="rounded-[24px] border border-red-500/20 bg-red-500/8 px-6 py-4 text-center">
+              <p className="body-sm text-red-300">{error}</p>
             </div>
           )}
         </GlassCard>

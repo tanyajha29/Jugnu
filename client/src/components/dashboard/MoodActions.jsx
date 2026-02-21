@@ -20,8 +20,8 @@ export default function MoodActions() {
     setLoading(true);
     try {
       await api.post("/user/phase", { phase: phaseId });
-      // Refetch dashboard to update theme and UI
       await refetchDashboard();
+      window.dispatchEvent(new Event("jugnu:particle-pulse"));
     } catch (err) {
       console.error("Failed to change phase:", err);
     } finally {
@@ -30,38 +30,40 @@ export default function MoodActions() {
   };
 
   return (
-    <GlassCard variant="default" className="flex flex-col gap-24 p-32">
-      <div className="flex flex-col gap-8">
-        <h3 className="text-xl font-semibold text-white">Adjust Your Phase</h3>
-        <p className="text-white-80">How are you feeling? Your environment will shift to match.</p>
+    <GlassCard variant="default" className="flex flex-col gap-4 p-8 sm:gap-6 sm:p-10">
+      {/* Header */}
+      <div className="flex flex-col gap-2 sm:gap-3">
+        <h3 className="h3 text-white-90">Adjust Your State</h3>
+        <p className="body-sm text-white-60">How are you feeling? Your environment will shift to match.</p>
       </div>
 
-      <div className="flex flex-col gap-16">
-        <div className="grid auto-rows-max grid-cols-2 gap-12 sm:grid-cols-3 sm:gap-16">
-          {PHASES.map((p) => (
-            <button
-              key={p.id}
-              disabled={loading}
-              onClick={() => changePhase(p.id)}
-              className="group relative flex flex-col items-center gap-6 rounded-2xl border border-white/10 bg-white/5 p-12 text-center transition-all duration-300 hover:border-white/20 hover:bg-white/10 disabled:opacity-50 sm:gap-8 sm:p-16"
-            >
-              <span
-                className="h-16 w-16 rounded-full shadow-[0_0_20px_var(--phase-color)] transition-transform duration-300 group-hover:scale-110 sm:h-20 sm:w-20"
-                style={{
-                  backgroundColor: p.color,
-                  "--phase-color": `${p.color}40`,
-                }}
-              />
-              <span className="text-xs font-medium text-white sm:text-sm">{p.label}</span>
-            </button>
-          ))}
-        </div>
+      {/* Phase Grid */}
+      <div className="grid auto-rows-max grid-cols-2 gap-4 sm:gap-6 md:grid-cols-3">
+        {PHASES.map((p) => (
+          <button
+            key={p.id}
+            disabled={loading}
+            onClick={() => changePhase(p.id)}
+            className="group relative flex flex-col items-center gap-2 rounded-[24px] border border-white/8 bg-white/4 p-4 transition-all duration-300 hover:border-white/15 hover:bg-white/7 disabled:opacity-50 sm:gap-3 sm:p-6"
+          >
+            <span
+              className="h-10 w-10 rounded-full transition-transform duration-300 group-hover:scale-105 sm:h-12 sm:w-12"
+              style={{
+                backgroundColor: p.color,
+                boxShadow: `0 0 10px ${p.color}30`,
+              }}
+              aria-hidden="true"
+            />
+            <span className="text-body-sm font-medium text-white-80 text-center">{p.label}</span>
+          </button>
+        ))}
       </div>
 
+      {/* Loading State */}
       {loading && (
-        <div className="flex items-center gap-8 text-center text-sm text-white-80">
-          <div className="h-4 w-4 animate-spin rounded-full border-2 border-white/20 border-t-white/80" />
-          Shifting your environment...
+        <div className="flex items-center justify-center gap-2 text-body-sm text-white-60">
+          <div className="h-3 w-3 animate-spin rounded-full border-2 border-white/20 border-t-white/60" />
+          Shifting environment...
         </div>
       )}
     </GlassCard>

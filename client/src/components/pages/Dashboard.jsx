@@ -7,73 +7,86 @@ import ReflectionPromptCard from "../dashboard/ReflectionPromptCard";
 import AddMoodCard from "../dashboard/AddMoodCard";
 import PhaseBackground from "../layout/PhaseBackground";
 import MoodActions from "../dashboard/MoodActions";
+import DailyMessage from "../dashboard/DailyMessage";
 
 export default function Dashboard() {
   const { dashboard } = useContext(EmotionContext);
 
-  if (!dashboard) return (
-    <PhaseBackground>
-      <div className="mx-auto max-w-7xl px-6">
-        <div className="space-y-32 py-64">
-          {/* Greeting skeleton */}
-          <div className="grid grid-cols-1 gap-32 lg:grid-cols-3">
-            <div className="lg:col-span-2">
-              <div className="space-y-16 rounded-2xl border border-white/10 bg-white/5 p-32 backdrop-blur-xl">
-                <div className="h-20 w-1/2 animate-pulse rounded-xl bg-white/10" />
-                <div className="h-16 w-2/3 animate-pulse rounded-xl bg-white/10" />
-                <div className="h-32 w-full animate-pulse rounded-xl bg-white/10" />
+  if (!dashboard)
+    return (
+      <PhaseBackground>
+        <div className="mx-auto max-w-7xl px-8">
+          <div className="space-y-8 py-32 sm:space-y-12 sm:py-40">
+            {/* Greeting & Prompt skeleton */}
+            <div className="grid grid-cols-1 gap-8 sm:gap-12 lg:grid-cols-3">
+              <div className="lg:col-span-2">
+                <div className="space-y-4 rounded-[24px] border border-white/8 bg-white/4 p-8 sm:p-10 sm:space-y-6 backdrop-blur-md">
+                  <div className="h-8 w-1/2 animate-pulse rounded-lg bg-white/10" />
+                  <div className="h-6 w-2/3 animate-pulse rounded-lg bg-white/10" />
+                  <div className="h-20 w-full animate-pulse rounded-lg bg-white/10" />
+                </div>
+              </div>
+              <div className="lg:col-span-1">
+                <div className="space-y-4 rounded-[24px] border border-white/8 bg-white/4 p-8 sm:p-10 sm:space-y-6 backdrop-blur-md">
+                  <div className="h-6 w-3/4 animate-pulse rounded-lg bg-white/10" />
+                  <div className="h-16 w-full animate-pulse rounded-lg bg-white/10" />
+                </div>
               </div>
             </div>
-            <div className="lg:col-span-1">
-              <div className="space-y-16 rounded-2xl border border-white/10 bg-white/5 p-32 backdrop-blur-xl">
-                <div className="h-16 w-3/4 animate-pulse rounded-xl bg-white/10" />
-                <div className="h-24 w-full animate-pulse rounded-xl bg-white/10" />
+
+            {/* Chart skeleton */}
+            <div className="space-y-4 rounded-[24px] border border-white/8 bg-white/4 p-8 sm:p-10 sm:space-y-6 backdrop-blur-md">
+              <div className="h-6 w-1/3 animate-pulse rounded-lg bg-white/10" />
+              <div className="h-56 w-full animate-pulse rounded-lg bg-white/10" />
+            </div>
+
+            {/* Insights skeleton */}
+            <div className="grid grid-cols-1 gap-8 sm:gap-12 lg:grid-cols-2">
+              <div className="space-y-4 rounded-[24px] border border-white/8 bg-white/4 p-8 sm:p-10 sm:space-y-6 backdrop-blur-md">
+                <div className="h-6 w-1/2 animate-pulse rounded-lg bg-white/10" />
+                <div className="h-24 w-full animate-pulse rounded-lg bg-white/10" />
+              </div>
+              <div className="space-y-4 rounded-[24px] border border-white/8 bg-white/4 p-8 sm:p-10 sm:space-y-6 backdrop-blur-md">
+                <div className="h-6 w-1/2 animate-pulse rounded-lg bg-white/10" />
+                <div className="h-24 w-full animate-pulse rounded-lg bg-white/10" />
               </div>
             </div>
-          </div>
-
-          {/* Chart skeleton */}
-          <div className="space-y-16 rounded-2xl border border-white/10 bg-white/5 p-32 backdrop-blur-xl">
-            <div className="h-16 w-1/3 animate-pulse rounded-xl bg-white/10" />
-            <div className="h-64 w-full animate-pulse rounded-xl bg-white/10" />
-          </div>
-
-          {/* Insights skeleton */}
-          <div className="space-y-16 rounded-2xl border border-white/10 bg-white/5 p-32 backdrop-blur-xl">
-            <div className="h-16 w-1/2 animate-pulse rounded-xl bg-white/10" />
-            <div className="h-32 w-full animate-pulse rounded-xl bg-white/10" />
           </div>
         </div>
-      </div>
-    </PhaseBackground>
-  );
+      </PhaseBackground>
+    );
 
   return (
-    <PhaseBackground
-      fireflyCount={4}
-    >
-      <div className="mx-auto flex max-w-6xl flex-col gap-32 px-6">
-        {/* Row 1: Greeting + Reflection Prompt */}
-        <div className="grid grid-cols-1 gap-32 lg:grid-cols-3">
-          <div className="lg:col-span-2">
+    <PhaseBackground fireflyCount={4}>
+      <div className="mx-auto flex max-w-7xl flex-col gap-8 px-8 pt-32 sm:gap-12 pb-16">
+        {/* Section 1: Greeting + Daily Message (2/3) + Reflection Prompt (1/3) */}
+        <div className="grid grid-cols-1 gap-8 sm:gap-12 lg:grid-cols-3">
+          <div className="lg:col-span-2 space-y-8 sm:space-y-10">
             <GreetingCard />
+            <DailyMessage />
           </div>
           <div className="lg:col-span-1">
             <ReflectionPromptCard />
           </div>
         </div>
 
-        {/* Row 2: Weekly Chart */}
-        <WeeklyMoodChart />
+        {/* Section 2: Weekly Mood Trend Chart (Full Width) */}
+        <div className="mt-4">
+          <WeeklyMoodChart />
+        </div>
 
-        {/* Row 3: Insights + Mood Actions */}
-        <div className="grid grid-cols-1 gap-32 lg:grid-cols-2">
+        {/* Section 3: Weekly Insights (Split) + Mood Actions */}
+        <div className="grid grid-cols-1 gap-8 sm:gap-12 lg:grid-cols-2">
           <WeeklyInsightCard />
           <MoodActions />
         </div>
 
-        {/* Row 4: Quick Mood Check */}
-        <AddMoodCard />
+        {/* Section 4: Quick Mood Check (Compact) */}
+        <div className="flex w-full justify-end">
+          <div className="w-full max-w-md">
+            <AddMoodCard />
+          </div>
+        </div>
       </div>
     </PhaseBackground>
   );

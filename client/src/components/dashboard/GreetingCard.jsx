@@ -9,23 +9,27 @@ export default function GreetingCard() {
     : "neutral";
 
   return (
-    <GlassCard variant="elevated" className="flex flex-col gap-16 p-32">
-      <div className="flex flex-col gap-8">
-        <h1 className="text-h1 text-white">
-          Good {dashboard.timeOfDay}, {dashboard.userName}
+    <GlassCard variant="elevated" className="flex flex-col gap-4 p-8 sm:gap-6 sm:p-10">
+      {/* Greeting & Status */}
+      <div className="flex flex-col gap-2 sm:gap-3">
+        <h1 className="h1 text-white-90">
+          Good {dashboard.timeOfDay}, <span className="text-white">{dashboard.userName}</span>
         </h1>
-        <p className="text-lg text-white-80">
-          You seem <span className="font-semibold text-white" style={{ color: theme.accent }}>{phaseLabel}</span> today.
+        <p className="body text-white-60">
+          You seem{" "}
+          <span className="font-medium text-white-80" style={{ color: theme.accent }}>
+            {phaseLabel}
+          </span>{" "}
+          today.
         </p>
       </div>
 
-      <div className="flex flex-col gap-12 border-t border-white/10 pt-16">
-        <p className="text-body text-white-80 italic">
+      {/* Daily Message */}
+      <div className="flex flex-col gap-3 border-t border-white/8 pt-4 sm:gap-4 sm:pt-6">
+        <p className="body text-white-60 italic">
           "{dashboard?.dailyMessage?.text || "Take a moment to breathe and notice your surroundings."}"
         </p>
-        <span className="text-caption text-white-80">
-          {theme.messageTone}
-        </span>
+        <span className="caption text-white-50">{theme.messageTone}</span>
       </div>
     </GlassCard>
   );

@@ -1,17 +1,180 @@
-.input-glow {
-  background: rgba(255,255,255,0.2);
-  border-radius: 12px;
-  padding: 12px;
-  outline: none;
-  transition: box-shadow 0.3s;
+/* Background & Phase Animations */
+.phase-background {
+  background-size: 200% 200%;
+  animation: gradientShift 50s ease-in-out infinite;
+  --interaction: 0;
+  --pulse: 0;
 }
 
-.input-glow:focus {
-  box-shadow: 0 0 20px rgba(255,255,255,0.6);
+.phase-ambient {
+  position: absolute;
+  inset: -10%;
+  background-image:
+    radial-gradient(700px 500px at 12% 18%, var(--phase-glow, rgba(255, 255, 255, 0.12)), transparent 50%),
+    radial-gradient(600px 400px at 88% 22%, color-mix(in srgb, var(--phase-accent, #ffffff) 15%, transparent), transparent 60%),
+    radial-gradient(500px 400px at 35% 88%, rgba(255, 255, 255, 0.06), transparent 55%);
+  opacity: 0.4;
+  filter: blur(1px);
+  animation: ambientShift 60s ease-in-out infinite;
+  pointer-events: none;
 }
 
-.btn-primary {
-  background: rgba(255,255,255,0.25);
-  padding: 12px;
-  border-radius: 14px;
+.phase-noise {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    radial-gradient(circle, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 28px 28px, 36px 36px;
+  background-position: 0 0, 10px 14px;
+  mix-blend-mode: overlay;
+  opacity: 0.12;
+  animation: noiseShift 25s linear infinite;
+  pointer-events: none;
+}
+
+/* Firefly Particle System */
+.fireflies {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.firefly {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 9999px;
+  background: var(--phase-accent, rgba(255, 255, 255, 0.4));
+  opacity: calc(0.25 + (var(--interaction) * 0.15) + (var(--pulse) * 0.2));
+  box-shadow: 0 0 calc(10px + (var(--interaction) * 6px) + (var(--pulse) * 10px))
+    color-mix(in srgb, var(--phase-accent, #ffffff) 40%, transparent);
+  filter: blur(0.5px);
+  transition: opacity 300ms ease, box-shadow 300ms ease;
+}
+
+.firefly--drift {
+  animation: drift 45s ease-in-out infinite,
+    fireflyPulse 4s ease-in-out infinite;
+}
+
+.firefly--pulse {
+  animation: drift 48s ease-in-out infinite,
+    fireflyPulseGentle 5s ease-in-out infinite;
+}
+
+.firefly--floating {
+  animation: gentleFloat 52s ease-in-out infinite,
+    fireflyPulse 5s ease-in-out infinite;
+}
+
+.firefly--jitter {
+  animation: gentleJitter 7s ease-in-out infinite,
+    drift 46s ease-in-out infinite;
+}
+
+.firefly--flicker {
+  animation: gentleFlicker 6s ease-in-out infinite,
+    drift 50s ease-in-out infinite;
+}
+
+/* Keyframe Animations */
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes ambientShift {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(-1%, 1%, 0) scale(1.01); }
+  100% { transform: translate3d(0, 0, 0) scale(1); }
+}
+
+@keyframes noiseShift {
+  0% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(-0.5%, 0.5%, 0); }
+  100% { transform: translate3d(0, 0, 0); }
+}
+
+@keyframes drift {
+  0% { transform: translateY(0) translateX(0); }
+  50% { transform: translateY(-18px) translateX(12px); }
+  100% { transform: translateY(0) translateX(0); }
+}
+
+@keyframes fireflyPulse {
+  0%, 100% { opacity: 0.3; transform: scale(0.95); }
+  50% { opacity: 0.5; transform: scale(1.05); }
+}
+
+@keyframes fireflyPulseGentle {
+  0%, 100% { opacity: 0.25; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(1.06); }
+}
+
+@keyframes gentleFloat {
+  0% { transform: translate(0, 0); }
+  33% { transform: translate(16px, -24px); }
+  66% { transform: translate(-12px, -18px); }
+  100% { transform: translate(0, 0); }
+}
+
+@keyframes gentleJitter {
+  0%, 100% { transform: translate(0, 0); }
+  25% { transform: translate(0.5px, -0.5px); }
+  50% { transform: translate(-0.5px, 0.5px); }
+  75% { transform: translate(0.3px, 0.3px); }
+}
+
+@keyframes gentleFlicker {
+  0%, 100% { opacity: 0.4; }
+  25% { opacity: 0.25; }
+  50% { opacity: 0.5; }
+  75% { opacity: 0.35; }
+}
+
+/* Utility Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }

@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { Link } from "react-router-dom";
 import GlassCard from "../components/layout/GlassCard";
-import AuthBackground from "../components/layout/AuthBackground"; // No background images
+import AuthBackground from "../components/layout/AuthBackground";
 
 export default function Login() {
   const { login } = useContext(AuthContext);
@@ -26,52 +26,57 @@ export default function Login() {
 
   return (
     <AuthBackground>
-      <GlassCard className="flex flex-col gap-32 p-40">
-        <div className="flex flex-col gap-8">
-          <h2 className="text-h2 text-white">Welcome back</h2>
-          <p className="text-white-80">Take a breath and continue your journey.</p>
+      <GlassCard className="space-y-8 p-12 sm:p-16">
+        {/* Header */}
+        <div className="space-y-2">
+          <h2 className="h2 text-white-90">Welcome back</h2>
+          <p className="body-sm text-white-60">Continue your emotional journey with clarity.</p>
         </div>
 
-        <form onSubmit={handleLogin} className="flex flex-col gap-24">
-          <div className="flex flex-col gap-16">
-            <input
-              type="email"
-              className="w-full rounded-xl border border-white/10 bg-white/5 px-16 py-12 text-white placeholder-white/40 outline-none transition-all focus:border-white/30 focus:bg-white/10"
-              placeholder="Email address"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
+        {/* Form */}
+        <form onSubmit={handleLogin} className="space-y-6">
+          {/* Email Input */}
+          <input
+            type="email"
+            className="w-full rounded-[24px] border border-white/8 bg-white/4 px-6 py-4 text-body text-white placeholder-white/30 transition-all duration-300 focus:border-white/15 focus:bg-white/8 focus:outline-none"
+            placeholder="Email address"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
 
-            <input
-              type="password"
-              className="w-full rounded-xl border border-white/10 bg-white/5 px-16 py-12 text-white placeholder-white/40 outline-none transition-all focus:border-white/30 focus:bg-white/10"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
+          {/* Password Input */}
+          <input
+            type="password"
+            className="w-full rounded-[24px] border border-white/8 bg-white/4 px-6 py-4 text-body text-white placeholder-white/30 transition-all duration-300 focus:border-white/15 focus:bg-white/8 focus:outline-none"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
 
+          {/* Submit Button */}
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded-xl bg-white/10 py-16 font-semibold text-white transition-all duration-300 hover:bg-white/20 disabled:opacity-50 active:scale-95"
+            className="w-full rounded-[24px] border border-white/10 bg-white/8 py-4 text-body font-medium text-white transition-all duration-300 hover:border-white/15 hover:bg-white/12 disabled:opacity-50 disabled:cursor-not-allowed active:scale-95"
           >
-            {loading ? "Signing in..." : "Continue Gently"}
+            {loading ? "Signing in..." : "Continue"}
           </button>
         </form>
 
+        {/* Error Message */}
         {error && (
-          <div className="rounded-xl border border-red-500/20 bg-red-500/10 p-12 text-center text-sm text-red-200">
+          <div className="rounded-[24px] border border-red-500/20 bg-red-500/8 px-6 py-4 text-center text-body-sm text-red-300">
             {error}
           </div>
         )}
 
-        <p className="text-center text-sm text-white-80">
+        {/* Register Link */}
+        <p className="text-center text-body-sm text-white-60">
           Don't have an account?{" "}
-          <Link to="/register" className="font-semibold text-white hover:underline">
-            Register here
+          <Link to="/register" className="font-medium text-white-90 transition-color duration-300 hover:text-white">
+            Create one
           </Link>
         </p>
       </GlassCard>

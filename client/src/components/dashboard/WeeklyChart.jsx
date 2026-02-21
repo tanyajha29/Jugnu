@@ -14,23 +14,23 @@ export default function WeeklyMoodChart() {
     { day: "Sat", mood: 4 },
     { day: "Sun", mood: 3 },
   ];
-  const chartData = dashboard?.weeklyTrend?.length
-    ? dashboard.weeklyTrend
-    : fallbackData;
+  const chartData = dashboard?.weeklyTrend?.length ? dashboard.weeklyTrend : fallbackData;
 
   return (
-    <GlassCard className="flex flex-col gap-24 p-32">
-      <div className="flex flex-col gap-8">
-        <h2 className="text-h2 text-white">Weekly Mood Trend</h2>
-        <p className="text-white-80">A gentle view of your emotional rhythm this week.</p>
+    <GlassCard className="flex flex-col gap-4 p-8 sm:gap-6 sm:p-10">
+      {/* Header */}
+      <div className="flex flex-col gap-2 sm:gap-3">
+        <h2 className="h2 text-white-90">Weekly Mood Trend</h2>
+        <p className="body-sm text-white-60">A gentle view of your emotional rhythm this week.</p>
       </div>
 
-      <div className="h-[240px] w-full">
+      {/* Chart */}
+      <div className="h-48 w-full sm:h-56">
         <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={chartData} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
+          <LineChart data={chartData} margin={{ top: 5, right: 20, bottom: 5, left: -20 }}>
             <XAxis
               dataKey="day"
-              stroke="rgba(255, 255, 255, 0.4)"
+              stroke="rgba(255, 255, 255, 0.25)"
               fontSize={12}
               axisLine={false}
               tickLine={false}
@@ -39,10 +39,10 @@ export default function WeeklyMoodChart() {
             <YAxis hide domain={[0, 5]} />
             <Tooltip
               contentStyle={{
-                backgroundColor: "rgba(15, 23, 42, 0.8)",
+                backgroundColor: "rgba(10, 14, 26, 0.9)",
                 border: "1px solid rgba(255, 255, 255, 0.1)",
-                borderRadius: "12px",
-                backdropFilter: "blur(8px)",
+                borderRadius: "16px",
+                backdropFilter: "blur(12px)",
               }}
               itemStyle={{ color: "#fff" }}
               cursor={{ stroke: "rgba(255, 255, 255, 0.1)", strokeWidth: 2 }}
@@ -51,10 +51,10 @@ export default function WeeklyMoodChart() {
               type="monotone"
               dataKey="mood"
               stroke={theme.accent}
-              strokeWidth={4}
-              dot={{ r: 4, fill: theme.accent, strokeWidth: 0 }}
-              activeDot={{ r: 6, strokeWidth: 0 }}
-              animationDuration={1500}
+              strokeWidth={3}
+              dot={{ r: 3, fill: theme.accent, strokeWidth: 0 }}
+              activeDot={{ r: 5, strokeWidth: 0 }}
+              animationDuration={800}
             />
           </LineChart>
         </ResponsiveContainer>
