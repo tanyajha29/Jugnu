@@ -32,14 +32,14 @@ export function AuthProvider({ children }) {
     const res = await api.post("/auth/login", { email, password });
     localStorage.setItem("jwt", res.data.data.token);
     setUser(res.data.data.user);
-    navigate("/dashboard");
+    return res.data.data.user;
   };
 
   const register = async (data) => {
     const res = await api.post("/auth/register", data);
     localStorage.setItem("jwt", res.data.data.token);
     setUser(res.data.data.user);
-    navigate("/dashboard");
+    return res.data.data.user;
   };
 
   const logout = () => {

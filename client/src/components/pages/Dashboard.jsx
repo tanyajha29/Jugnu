@@ -1,82 +1,66 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { EmotionContext } from "../../context/EmotionContext";
-import GreetingCard from "../dashboard/GreetingCard";
-import WeeklyMoodChart from "../dashboard/WeeklyChart";
-import WeeklyInsightCard from "../dashboard/WeeklyInsightCard";
-import ReflectionPromptCard from "../dashboard/ReflectionPromptCard";
 import PhaseBackground from "../layout/PhaseBackground";
-import MoodActions from "../dashboard/MoodActions";
+import GlassCard from "../layout/GlassCard";
+import { Link } from "react-router-dom";
+import { fetchDailyMessage } from "../../api/dashboard.api";
 
 export default function Dashboard() {
   const { dashboard } = useContext(EmotionContext);
+  const [dailyMessage, setDailyMessage] = useState(null);
 
-  if (!dashboard)
+  useEffect(() => {
+    const loadDaily = async () => {
+      try {
+        const data = await fetchDailyMessage();
+        setDailyMessage(data);
+      } catch (err) {
+        setDailyMessage(null);
+      }
+    };
+    loadDaily();
+  }, []);
+
+  if (!dashboard) {
     return (
-      <PhaseBackground>
-        <div className="mx-auto max-w-7xl px-8">
-          <div className="space-y-8 py-32 sm:space-y-12 sm:py-40">
-            {/* Greeting & Prompt skeleton */}
-            <div className="grid grid-cols-1 gap-8 sm:gap-12 lg:grid-cols-3">
-              <div className="lg:col-span-2">
-                <div className="space-y-4 rounded-[24px] border border-white/8 bg-white/4 p-8 sm:p-10 sm:space-y-6 backdrop-blur-md">
-                  <div className="h-8 w-1/2 animate-pulse rounded-lg bg-white/10" />
-                  <div className="h-6 w-2/3 animate-pulse rounded-lg bg-white/10" />
-                  <div className="h-20 w-full animate-pulse rounded-lg bg-white/10" />
-                </div>
-              </div>
-              <div className="lg:col-span-1">
-                <div className="space-y-4 rounded-[24px] border border-white/8 bg-white/4 p-8 sm:p-10 sm:space-y-6 backdrop-blur-md">
-                  <div className="h-6 w-3/4 animate-pulse rounded-lg bg-white/10" />
-                  <div className="h-16 w-full animate-pulse rounded-lg bg-white/10" />
-                </div>
-              </div>
-            </div>
-
-            {/* Chart skeleton */}
-            <div className="space-y-4 rounded-[24px] border border-white/8 bg-white/4 p-8 sm:p-10 sm:space-y-6 backdrop-blur-md">
-              <div className="h-6 w-1/3 animate-pulse rounded-lg bg-white/10" />
-              <div className="h-56 w-full animate-pulse rounded-lg bg-white/10" />
-            </div>
-
-            {/* Insights skeleton */}
-            <div className="grid grid-cols-1 gap-8 sm:gap-12 lg:grid-cols-2">
-              <div className="space-y-4 rounded-[24px] border border-white/8 bg-white/4 p-8 sm:p-10 sm:space-y-6 backdrop-blur-md">
-                <div className="h-6 w-1/2 animate-pulse rounded-lg bg-white/10" />
-                <div className="h-24 w-full animate-pulse rounded-lg bg-white/10" />
-              </div>
-              <div className="space-y-4 rounded-[24px] border border-white/8 bg-white/4 p-8 sm:p-10 sm:space-y-6 backdrop-blur-md">
-                <div className="h-6 w-1/2 animate-pulse rounded-lg bg-white/10" />
-                <div className="h-24 w-full animate-pulse rounded-lg bg-white/10" />
-              </div>
-            </div>
-          </div>
+      <PhaseBackground variant="app" showGlow={true}>
+        <div className="mx-auto flex min-h-screen max-w-xl flex-col justify-center gap-6 px-6 py-24">
+          <div className="h-8 w-2/3 animate-pulse rounded-lg bg-white/10" />
+          <div className="h-24 w-full animate-pulse rounded-2xl bg-white/10" />
+          <div className="h-10 w-1/2 animate-pulse rounded-lg bg-white/10" />
         </div>
       </PhaseBackground>
     );
+  }
+
+  const phaseLabel = dashboard.currentPhase?.toLowerCase().replace(/_/g, " ") || "calm";
+  const messageText = dailyMessage?.text || dashboard.dailyMessage?.text || "Take a calm breath. We&apos;ll move gently together.";
 
   return (
-    <PhaseBackground>
-      <div className="mx-auto flex max-w-7xl flex-col gap-12 px-8 pb-16 pt-32">
-        {/* Section 1: Greeting (2/3) + Reflection (1/3) */}
-        <div className="grid grid-cols-1 gap-8 sm:gap-12 lg:grid-cols-3">
-          <div className="lg:col-span-2">
-            <GreetingCard />
-          </div>
-          <div className="lg:col-span-1">
-            <ReflectionPromptCard />
-          </div>
+    <PhaseBackground variant="app" showGlow={true}>
+      <div className="mx-auto flex min-h-screen max-w-[700px] flex-col items-center justify-center gap-8 px-6 py-24 text-center">
+        <div className="space-y-3">
+          <p className="text-sm uppercase tracking-[0.2em] text-white/50">Good {dashboard.timeOfDay}</p>
+          <h1 className="text-4xl font-semibold text-white sm:text-5xl">
+            {dashboard.userName}, you&apos;re here.
+          </h1>
+          <span className="phase-pill">{phaseLabel}</span>
         </div>
 
-        {/* Section 2: Weekly Mood Trend (Full Width) */}
-        <div>
-          <WeeklyMoodChart />
-        </div>
+        <GlassCard className="w-full p-8 text-left" variant="elevated">
+          <p className="text-base text-white/80">Today&apos;s guidance</p>
+          <p className="mt-3 text-lg text-white/70">
+            {messageText}
+          </p>
+        </GlassCard>
 
-        {/* Section 3: Weekly Insights + Adjust Your State */}
-        <div className="grid grid-cols-1 gap-8 sm:gap-12 lg:grid-cols-2">
-          <WeeklyInsightCard />
-          <MoodActions />
-        </div>
+        <Link to="/reflection" className="cta-primary">
+          Start Reflection
+        </Link>
+
+        <Link to="/reflection" className="text-sm text-white/60 hover:text-white">
+          View reflection history
+        </Link>
       </div>
     </PhaseBackground>
   );

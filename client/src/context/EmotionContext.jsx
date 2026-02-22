@@ -1,77 +1,36 @@
 import { createContext, useEffect, useState } from "react";
 import { fetchDashboard } from "../api/dashboard.api";
+import api from "../api/axios";
 
 export const EmotionContext = createContext();
 
 const EMOTION_THEMES = {
   CALM: {
-    gradientClass: "from-[#0B2447] to-[#0F766E]",
-    glowColor: "rgba(103, 232, 249, 0.35)",
-    accent: "#67E8F9",
-    particleSpeed: "56s",
-    fireflyDuration: 56,
-    fireflyCount: 5,
-    fireflyAnimation: "drift",
+    accent: "#5EEAD4",
     messageTone: "You're doing well. Keep breathing.",
   },
   STRESS: {
-    gradientClass: "from-[#2A0944] to-[#3B1C6B]",
-    glowColor: "rgba(214, 188, 250, 0.35)",
-    accent: "#D6BCFA",
-    particleSpeed: "44s",
-    fireflyDuration: 44,
-    fireflyCount: 6,
-    fireflyAnimation: "pulse",
+    accent: "#F97316",
     messageTone: "Let's slow things down.",
   },
   LONELINESS: {
-    gradientClass: "from-[#0F172A] to-[#3F1D63]",
-    glowColor: "rgba(251, 207, 232, 0.35)",
-    accent: "#FBCFE8",
-    particleSpeed: "52s",
-    fireflyDuration: 52,
-    fireflyCount: 5,
-    fireflyAnimation: "floating",
+    accent: "#93C5FD",
     messageTone: "You don't have to carry this alone.",
   },
   ANXIETY: {
-    gradientClass: "from-[#4C1D95] to-[#F97316]",
-    glowColor: "rgba(253, 164, 175, 0.35)",
-    accent: "#FDA4AF",
-    particleSpeed: "42s",
-    fireflyDuration: 42,
-    fireflyCount: 6,
-    fireflyAnimation: "jitter",
+    accent: "#FCA5A5",
     messageTone: "You're not alone in this. One breath at a time.",
   },
   CONFUSION: {
-    gradientClass: "from-[#1E293B] to-[#60A5FA]",
-    glowColor: "rgba(191, 219, 254, 0.35)",
-    accent: "#BFDBFE",
-    particleSpeed: "48s",
-    fireflyDuration: 48,
-    fireflyCount: 5,
-    fireflyAnimation: "flicker",
+    accent: "#A78BFA",
     messageTone: "It's okay not to have all the answers today.",
   },
   LOW_MOTIVATION: {
-    gradientClass: "from-[#0B1120] to-[#065F46]",
-    glowColor: "rgba(163, 230, 53, 0.35)",
-    accent: "#A3E635",
-    particleSpeed: "58s",
-    fireflyDuration: 58,
-    fireflyCount: 5,
-    fireflyAnimation: "floating",
+    accent: "#FDE047",
     messageTone: "We'll take it gently, one small step at a time.",
   },
   NEUTRAL: {
-    gradientClass: "from-[#0a0e1a] to-[#1a1f2e]",
-    glowColor: "rgba(255, 255, 255, 0.2)",
-    accent: "#E8E8E8",
-    particleSpeed: "54s",
-    fireflyDuration: 54,
-    fireflyCount: 5,
-    fireflyAnimation: "drift",
+    accent: "#F8FAFC",
     messageTone: "One step at a time.",
   },
 };
@@ -82,7 +41,6 @@ export function EmotionProvider({ children }) {
 
   const loadDashboard = async () => {
     try {
-      // API integration occurs here for dashboard context.
       const data = await fetchDashboard();
       setDashboard(data);
       const phase = data?.currentPhase || "NEUTRAL";
@@ -93,12 +51,17 @@ export function EmotionProvider({ children }) {
     }
   };
 
+  const setUserPhase = async (phase) => {
+    await api.post("/user/phase", { phase });
+    await loadDashboard();
+  };
+
   useEffect(() => {
     loadDashboard();
   }, []);
 
   return (
-    <EmotionContext.Provider value={{ dashboard, theme, refetchDashboard: loadDashboard }}>
+    <EmotionContext.Provider value={{ dashboard, theme, refetchDashboard: loadDashboard, setUserPhase }}>
       {children}
     </EmotionContext.Provider>
   );
